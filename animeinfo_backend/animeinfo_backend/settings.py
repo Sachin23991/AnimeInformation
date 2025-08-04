@@ -55,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'animeinfo_backend.urls'
@@ -114,16 +116,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-# ✅ CORRECTED: Static files configuration
 STATIC_URL = '/static/'
-
-# ✅ CORRECTED: Static files outside Django project
-STATICFILES_DIRS = [
-    BASE_DIR.parent / 'static',
-]
-
-# ✅ For production - where collected static files go
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 AUTH_USER_MODEL = 'users.CustomUser'
 
 # ✅ Media files configuration (for user uploads)
