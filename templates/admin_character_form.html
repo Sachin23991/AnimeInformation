@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ action }} Character - {{ anime.title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Noto Sans JP', sans-serif;
+            min-height: 100vh;
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        .form-title {
+            color: #00f2e3;
+            font-family: 'Orbitron', monospace;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .anime-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .image-option-group {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .option-title {
+            color: #00f2e3;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .form-label {
+            color: #f0f0f0;
+            margin-bottom: 0.5rem;
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #f0f0f0;
+            border-radius: 10px;
+        }
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #00f2e3;
+            color: #f0f0f0;
+            box-shadow: 0 0 10px rgba(0, 242, 227, 0.3);
+        }
+        .btn-admin {
+            background: linear-gradient(45deg, #00f2e3, #e6007e);
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 242, 227, 0.3);
+        }
+        .preview-container {
+            max-width: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        .preview-container img {
+            width: 100%;
+            height: auto;
+        }
+        .help-text {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1 class="form-title">{{ action }} Character</h1>
+            
+            <!-- Anime Info -->
+            <div class="anime-info">
+                <h4 class="text-light">For Anime: <span class="text-info">{{ anime.title }}</span></h4>
+                <p class="text-light-50">{{ anime.get_genre_display }} • {{ anime.release_year }}</p>
+            </div>
+            
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Character Name -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label">Character Name</label>
+                        {{ form.name }}
+                    </div>
+                </div>
+                
+                <!-- Character Description -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label">Character Description</label>
+                        {{ form.description }}
+                        <div class="help-text">Describe the character's personality, role in the story, abilities, etc.</div>
+                    </div>
+                </div>
+                
+                <!-- ✅ Character Image Options -->
+                <div class="image-option-group">
+                    <div class="option-title">
+                        🎭 Character Image Options
+                    </div>
+                    <p class="help-text">Choose one option: upload a file from your computer OR enter a URL. If both are provided, the uploaded file will be used.</p>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Upload Character Image File</label>
+                            {{ form.character_image }}
+                            <div class="help-text">Upload from your computer (JPG, PNG)</div>
+                            {% if character and character.character_image %}
+                                <div class="preview-container">
+                                    <img src="{{ character.character_image.url }}" alt="Current character image">
+                                    <div class="help-text">Current uploaded image</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Character Image URL</label>
+                            {{ form.character_image_url }}
+                            <div class="help-text">Or enter image URL</div>
+                            {% if character and character.character_image_url %}
+                                <div class="preview-container">
+                                    <img src="{{ character.character_image_url }}" alt="Current character URL" onerror="this.style.display='none'">
+                                    <div class="help-text">Current image URL</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Character Checkbox -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="form-check">
+                            {{ form.is_main_character }}
+                            <label class="form-check-label text-light">
+                                Main Character (will be featured prominently)
+                            </label>
+                        </div>
+                        <div class="help-text">Main characters appear in the character showcase and get special highlighting.</div>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn-admin">{{ action }} Character</button>
+                    <a href="{% url 'admin_character_list' anime.id %}" class="btn btn-outline-light">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Preview uploaded images
+        document.querySelector('input[name="character_image"]').addEventListener('change', function(e) {
+            if (e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Remove existing preview
+                    const existingPreview = document.querySelector('.character-preview');
+                    if (existingPreview) existingPreview.remove();
+                    
+                    // Create new preview
+                    const preview = document.createElement('div');
+                    preview.className = 'preview-container character-preview';
+                    preview.innerHTML = `
+                        <img src="${e.target.result}" alt="Character preview">
+                        <div class="help-text">Preview</div>
+                    `;
+                    e.target.parentElement.appendChild(preview);
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+    </script>
+</body>
+</html>

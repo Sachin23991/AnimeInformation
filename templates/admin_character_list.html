@@ -1,0 +1,220 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Characters - {{ anime.title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Noto Sans JP', sans-serif;
+            min-height: 100vh;
+        }
+        .admin-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+        }
+        .page-title {
+            color: #00f2e3;
+            font-family: 'Orbitron', monospace;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .anime-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .character-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .character-image {
+            width: 120px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto 1rem;
+        }
+        .character-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .character-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #00f2e3, #e6007e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .btn-admin {
+            background: linear-gradient(45deg, #00f2e3, #e6007e);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.25rem;
+            font-size: 0.9rem;
+        }
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 242, 227, 0.3);
+            color: white;
+        }
+        .btn-danger {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+        .character-name {
+            color: #00f2e3;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .character-info {
+            color: #f0f0f0;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .main-character-badge {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="admin-container">
+            <h1 class="page-title">Manage Characters</h1>
+            
+            <!-- Anime Info -->
+            <div class="anime-info">
+                {% if anime.get_poster_url %}
+                <div class="character-image">
+                    <img src="{{ anime.get_poster_url }}" alt="{{ anime.title }}">
+                </div>
+                {% endif %}
+                <div>
+                    <h3 class="character-name">{{ anime.title }}</h3>
+                    <p class="character-info">{{ anime.get_genre_display }} • {{ anime.release_year }} • {{ anime.studio }}</p>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'admin_character_create' anime.id %}" class="btn-admin">+ Add New Character</a>
+                        <a href="{% url 'admin_anime_list' %}" class="btn btn-outline-light btn-sm">← Back to Anime List</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Characters Grid -->
+            <div class="character-grid">
+                {% for character in characters %}
+                <div class="character-card">
+                    <div class="character-image">
+                        {% if character.get_character_image_url %}
+                        <img src="{{ character.get_character_image_url }}" alt="{{ character.name }}">
+                        {% else %}
+                        <div class="character-placeholder">
+                            {{ character.name|first }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <h4 class="character-name">{{ character.name }}</h4>
+                    
+                    {% if character.is_main_character %}
+                    <div class="main-character-badge mb-2">Main Character</div>
+                    {% endif %}
+                    
+                    <p class="character-info">{{ character.description|truncatewords:15 }}</p>
+                    
+                    <!-- ✅ CORRECTED CODE -->
+<div class="d-flex gap-1 flex-wrap">
+    <a href="{% url 'admin_anime_edit' anime.id %}" class="btn-admin btn-sm">Edit</a>
+    <a href="{% url 'admin_character_list' anime.id %}" class="btn-admin btn-sm">
+        Characters ({{ anime.characters.count }})
+    </a>
+    <button type="button" class="btn-admin btn-danger btn-sm" 
+            onclick="deleteAnime({{anime.id}}, '{{ anime.title|escapejs }}')">
+        Delete
+    </button>
+</div>
+
+                </div>
+                {% empty %}
+                <div class="empty-state">
+                    <h3>No Characters Added Yet</h3>
+                    <p>Add characters to bring this anime to life!</p>
+                    <a href="{% url 'admin_character_create' anime.id %}" class="btn-admin">Add First Character</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title text-light">Confirm Delete</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-light">
+                    <p>Are you sure you want to delete <strong id="characterName"></strong>?</p>
+                    <p class="text-muted">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteForm" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete Character</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function deleteCharacter(characterId, characterName) {
+            document.getElementById('characterName').textContent = characterName;
+            document.getElementById('deleteForm').action = '{% url "admin_character_delete" 0 %}'.replace('0', characterId);
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
+    </script>
+</body>
+</html>

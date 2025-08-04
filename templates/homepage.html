@@ -1,0 +1,492 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeInfo - Ultimate Anime Universe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
+</head>
+<body>
+    <!-- Animated Background with Multiple Layers -->
+    <div class="background-layers">
+        <div class="layer layer-1"></div>
+        <div class="layer layer-2"></div>
+        <div class="layer layer-3"></div>
+        <div class="floating-kanji">
+            <span class="kanji">龍</span>
+            <span class="kanji">魂</span>
+            <span class="kanji">力</span>
+            <span class="kanji">夢</span>
+            <span class="kanji">神</span>
+        </div>
+    </div>
+
+    <!-- Interactive Cursor Trail -->
+    <div class="cursor-trail" id="cursorTrail"></div>
+
+    <!-- Navigation with Power-Up Effect -->
+    <nav class="anime-nav">
+        <div class="nav-container">
+            <div class="logo-container">
+                <h1 class="nav-logo">
+                    <span class="logo-char">A</span>
+                    <span class="logo-char">N</span>
+                    <span class="logo-char">I</span>
+                    <span class="logo-char">M</span>
+                    <span class="logo-char">E</span>
+                    <span class="logo-char">I</span>
+                    <span class="logo-char">N</span>
+                    <span class="logo-char">F</span>
+                    <span class="logo-char">O</span>
+                </h1>
+                <div class="logo-aura"></div>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active">Home</a></li>
+                <li><a href="{% url 'anime_showcase' %}" class="nav-link">Showcase</a></li>
+                <li><a href="{% url 'explore' %}" class="nav-link">Explore</a></li>
+                <li><a href="#genresSection" class="nav-link" data-scroll="genresSection">Genres</a></li>
+            </ul>
+            
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Transformation Animation -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <!-- Animated Power Rings -->
+            <div class="power-rings">
+                <div class="ring ring-1"></div>
+                <div class="ring ring-2"></div>
+                <div class="ring ring-3"></div>
+                <div class="ring ring-4"></div>
+            </div>
+
+            <!-- Hero Content -->
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-text">✨ Ultimate Anime Experience</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    <span class="title-line title-line-1">
+                        <span class="word" data-text="ENTER">ENTER</span>
+                        <span class="word" data-text="THE">THE</span>
+                    </span>
+                    <span class="title-line title-line-2">
+                        <span class="word hero-main" data-text="ANIME">ANIME</span>
+                    </span>
+                    <span class="title-line title-line-3">
+                        <span class="word" data-text="MULTIVERSE">MULTIVERSE</span>
+                    </span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    Discover infinite worlds, legendary characters, and epic adventures.
+                    <br>Your journey through the ultimate anime universe starts here.
+                </p>
+
+                <!-- CTA Buttons with Special Effects -->
+                <div class="hero-actions">
+                    <button class="cta-btn primary-btn" id="startJourneyBtn">
+                        <span class="btn-content">
+                            <span class="btn-text">Start Your Journey</span>
+                            <span class="btn-icon">⚡</span>
+                        </span>
+                        <div class="btn-energy"></div>
+                        <div class="btn-particles"></div>
+                    </button>
+                    
+                    <button class="cta-btn secondary-btn" id="watchTrailerBtn">
+                        <span class="btn-content">
+                            <span class="btn-text">Watch Trailer</span>
+                            <span class="btn-icon">▶️</span>
+                        </span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+
+                <!-- Scroll Indicator with Anime Style -->
+                <div class="scroll-indicator">
+                    <div class="scroll-text">Scroll to explore</div>
+                    <div class="scroll-arrow">
+                        <span class="arrow-line"></span>
+                        <span class="arrow-head">↓</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Floating Elements -->
+            <div class="floating-elements">
+                <div class="floating-orb orb-1">🔮</div>
+                <div class="floating-orb orb-2">⭐</div>
+                <div class="floating-orb orb-3">💫</div>
+                <div class="floating-orb orb-4">✨</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Genre Selection with Card Battle Animation -->
+    <section class="genre-section" id="genresSection">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-kanji">ジャンル</span>
+                    <span class="title-english">Choose Your Genre</span>
+                </h2>
+                <p class="section-subtitle">Select your favorite anime genre and dive into endless adventures</p>
+            </div>
+
+            <div class="genre-grid">
+                <!-- Shounen Genre -->
+                <div class="genre-card" data-genre="shounen">
+                    <div class="card-background">
+                        <div class="card-energy shounen-energy"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="genre-icon">⚔️</div>
+                        <h3 class="genre-name">Shounen</h3>
+                        <p class="genre-description">Epic battles, friendship, and never-ending adventures</p>
+                        <div class="genre-stats">
+                            <span class="stat">Battle: ⭐⭐⭐⭐⭐</span>
+                            <span class="stat">Action: ⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <div class="anime-count">
+                            <span class="count-number" data-count="{{ shounen_count|default:0 }}">{{ shounen_count|default:0 }}</span>
+                            <span class="count-label">Anime Available</span>
+                        </div>
+                    </div>
+                    <div class="card-effects">
+                        <div class="energy-burst"></div>
+                        <div class="power-lines"></div>
+                    </div>
+                </div>
+
+                <!-- Seinen Genre -->
+                <div class="genre-card" data-genre="seinen">
+                    <div class="card-background">
+                        <div class="card-energy seinen-energy"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="genre-icon">🗾</div>
+                        <h3 class="genre-name">Seinen</h3>
+                        <p class="genre-description">Mature themes, complex narratives, and deep psychology</p>
+                        <div class="genre-stats">
+                            <span class="stat">Depth: ⭐⭐⭐⭐⭐</span>
+                            <span class="stat">Mature: ⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <div class="anime-count">
+                            <span class="count-number" data-count="{{ seinen_count|default:0 }}">{{ seinen_count|default:0 }}</span>
+                            <span class="count-label">Anime Available</span>
+                        </div>
+                    </div>
+                    <div class="card-effects">
+                        <div class="shadow-waves"></div>
+                        <div class="mind-particles"></div>
+                    </div>
+                </div>
+
+                <!-- Shoujo Genre -->
+                <div class="genre-card" data-genre="shoujo">
+                    <div class="card-background">
+                        <div class="card-energy shoujo-energy"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="genre-icon">🌸</div>
+                        <h3 class="genre-name">Shoujo</h3>
+                        <p class="genre-description">Romance, emotions, and beautiful storytelling</p>
+                        <div class="genre-stats">
+                            <span class="stat">Romance: ⭐⭐⭐⭐⭐</span>
+                            <span class="stat">Beauty: ⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <div class="anime-count">
+                            <span class="count-number" data-count="{{ shoujo_count|default:0 }}">{{ shoujo_count|default:0 }}</span>
+                            <span class="count-label">Anime Available</span>
+                        </div>
+                    </div>
+                    <div class="card-effects">
+                        <div class="sparkle-shower"></div>
+                        <div class="heart-bubbles"></div>
+                    </div>
+                </div>
+
+                <!-- Fantasy Genre -->
+                <div class="genre-card" data-genre="fantasy">
+                    <div class="card-background">
+                        <div class="card-energy fantasy-energy"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="genre-icon">🏰</div>
+                        <h3 class="genre-name">Fantasy</h3>
+                        <p class="genre-description">Magic, mythical creatures, and otherworldly adventures</p>
+                        <div class="genre-stats">
+                            <span class="stat">Magic: ⭐⭐⭐⭐⭐</span>
+                            <span class="stat">Wonder: ⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <div class="anime-count">
+                            <span class="count-number" data-count="{{ fantasy_count|default:0 }}">{{ fantasy_count|default:0 }}</span>
+                            <span class="count-label">Anime Available</span>
+                        </div>
+                    </div>
+                    <div class="card-effects">
+                        <div class="magic-circles"></div>
+                        <div class="spell-runes"></div>
+                    </div>
+                </div>
+
+                <!-- Mecha Genre -->
+                <div class="genre-card" data-genre="mecha">
+                    <div class="card-background">
+                        <div class="card-energy mecha-energy"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="genre-icon">🤖</div>
+                        <h3 class="genre-name">Mecha</h3>
+                        <p class="genre-description">Giant robots, technology, and futuristic warfare</p>
+                        <div class="genre-stats">
+                            <span class="stat">Tech: ⭐⭐⭐⭐⭐</span>
+                            <span class="stat">Mecha: ⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <div class="anime-count">
+                            <span class="count-number" data-count="{{ mecha_count|default:0 }}">{{ mecha_count|default:0 }}</span>
+                            <span class="count-label">Anime Available</span>
+                        </div>
+                    </div>
+                    <div class="card-effects">
+                        <div class="tech-grid"></div>
+                        <div class="laser-beams"></div>
+                    </div>
+                </div>
+
+                <!-- Horror Genre -->
+                <div class="genre-card" data-genre="horror">
+                    <div class="card-background">
+                        <div class="card-energy horror-energy"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="genre-icon">👹</div>
+                        <h3 class="genre-name">Horror</h3>
+                        <p class="genre-description">Supernatural terror, psychological thrills, and dark mysteries</p>
+                        <div class="genre-stats">
+                            <span class="stat">Fear: ⭐⭐⭐⭐⭐</span>
+                            <span class="stat">Thrill: ⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <div class="anime-count">
+                            <span class="count-number" data-count="{{ horror_count|default:0 }}">{{ horror_count|default:0 }}</span>
+                            <span class="count-label">Anime Available</span>
+                        </div>
+                    </div>
+                    <div class="card-effects">
+                        <div class="darkness-fog"></div>
+                        <div class="ghost-wisps"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section with Transformation Effects -->
+    <section class="features-section" id="featuresSection">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-kanji">特徴</span>
+                    <span class="title-english">Anime Powers Unleashed</span>
+                </h2>
+                <p class="section-subtitle">Experience the ultimate anime platform with incredible features</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Feature 1: Anime Database -->
+                <div class="feature-card" data-feature="database">
+                    <div class="feature-icon">📚</div>
+                    <h3 class="feature-title">Massive Database</h3>
+                    <p class="feature-description">Explore thousands of anime series, movies, and OVAs with detailed information</p>
+                    <div class="feature-animation database-animation"></div>
+                </div>
+
+                <!-- Feature 2: Character Profiles -->
+                <div class="feature-card" data-feature="characters">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title">Character Universe</h3>
+                    <p class="feature-description">Dive deep into character backgrounds, powers, and story arcs</p>
+                    <div class="feature-animation character-animation"></div>
+                </div>
+
+                <!-- Feature 3: Timeline -->
+                <div class="feature-card" data-feature="timeline">
+                    <div class="feature-icon">⏰</div>
+                    <h3 class="feature-title">Anime Timeline</h3>
+                    <p class="feature-description">Journey through anime history from classics to modern masterpieces</p>
+                    <div class="feature-animation timeline-animation"></div>
+                </div>
+
+                <!-- Feature 4: Reviews -->
+                <div class="feature-card" data-feature="reviews">
+                    <div class="feature-icon">⭐</div>
+                    <h3 class="feature-title">Community Reviews</h3>
+                    <p class="feature-description">Share your thoughts and discover what the community thinks</p>
+                    <div class="feature-animation review-animation"></div>
+                </div>
+
+                <!-- Feature 5: Recommendations -->
+                <div class="feature-card" data-feature="recommendations">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Smart Recommendations</h3>
+                    <p class="feature-description">AI-powered suggestions based on your anime preferences</p>
+                    <div class="feature-animation recommendation-animation"></div>
+                </div>
+
+                <!-- Feature 6: Watchlist -->
+                <div class="feature-card" data-feature="watchlist">
+                    <div class="feature-icon">📝</div>
+                    <h3 class="feature-title">Personal Watchlist</h3>
+                    <p class="feature-description">Track your anime journey and never miss an episode</p>
+                    <div class="feature-animation watchlist-animation"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Stats with Power Level Animation -->
+    <section class="stats-section">
+        <div class="section-container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📺</div>
+                    <div class="stat-number" data-target="{{ total_anime|default:0 }}">0</div>
+                    <div class="stat-label">Anime Series</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-number" data-target="{{ featured_anime.count|default:0 }}">0</div>
+                    <div class="stat-label">Featured</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-number" data-target="{{ total_characters|default:0 }}">0</div>
+                    <div class="stat-label">Characters</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-number" data-target="{{ unique_genres_count|default:0 }}">0</div>
+                    <div class="stat-label">Genres</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action with Ultimate Transformation -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <div class="cta-background">
+                <div class="transformation-rings">
+                    <div class="transform-ring ring-1"></div>
+                    <div class="transform-ring ring-2"></div>
+                    <div class="transform-ring ring-3"></div>
+                </div>
+            </div>
+
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Begin Your Anime Adventure?</h2>
+                <p class="cta-subtitle">Join the ultimate anime community and discover your next favorite series</p>
+                
+                <div class="cta-actions">
+                    <button class="cta-btn ultimate-btn" id="joinNowBtn">
+                        <span class="btn-content">
+                            <span class="btn-text">Join Now</span>
+                            <span class="btn-power">💥</span>
+                        </span>
+                        <div class="ultimate-energy"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer with Anime Styling -->
+    <footer class="anime-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">AnimeInfo</h3>
+                    <p class="footer-description">Your ultimate destination for anime discovery and community</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Home</a></li>
+                        <li><a href="{% url 'anime_showcase' %}" class="footer-link">Showcase</a></li>
+                        <li><a href="{% url 'explore' %}" class="footer-link">Explore</a></li>
+                        <li><a href="#" class="footer-link">Timeline</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">Community</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Reviews</a></li>
+                        <li><a href="#" class="footer-link">Forums</a></li>
+                        <li><a href="#" class="footer-link">Discord</a></li>
+                        <li><a href="#" class="footer-link">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">Connect</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">📱</a>
+                        <a href="#" class="social-link">🐦</a>
+                        <a href="#" class="social-link">📘</a>
+                        <a href="#" class="social-link">📷</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 AnimeInfo. Made with ❤️ for anime fans worldwide</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <div class="loading-text">Loading Anime Universe...</div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/homepage.js' %}"></script>
+</body>
+</html>

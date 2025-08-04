@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Anime Timeline Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+</head>
+<body>
+    <div class="particle-system"></div>
+    
+    <div class="signup-container">
+        <div class="signup-card">
+            <div class="character-carousel">
+                <div class="character-silhouette" data-anime="luffy"></div>
+                <div class="character-silhouette" data-anime="naruto"></div>
+                <div class="character-silhouette" data-anime="eren"></div>
+                <div class="character-silhouette" data-anime="yuji"></div>
+            </div>
+            
+            <div class="signup-form">
+                <h1 class="signup-title">
+                    <span class="neon-text" data-text="Join the Universe">Join the Universe</span>
+                </h1>
+                <p class="signup-subtitle">Create your anime timeline account</p>
+                
+                <!-- Django Messages -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- Display non-field errors -->
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                
+                <!-- Django Form with Error Display -->
+                <form method="post" class="form" id="signup-form">
+                    {% csrf_token %}
+
+                    <!-- Username Field -->
+                    <div class="input-group {% if form.username.errors %}has-error{% endif %}">
+                        <input type="text" name="username" id="id_username" required 
+                               value="{{ form.username.value|default:'' }}">
+                        <label for="id_username">Username</label>
+                        <div class="input-line"></div>
+                        <div class="input-particles"></div>
+                        {% if form.username.errors %}
+                            <div class="field-error">
+                                {% for error in form.username.errors %}
+                                    <span class="error-text">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Full Name Field -->
+                    <div class="input-group {% if form.first_name.errors %}has-error{% endif %}">
+                        <input type="text" name="first_name" id="id_first_name" required
+                               value="{{ form.first_name.value|default:'' }}">
+                        <label for="id_first_name">Full Name</label>
+                        <div class="input-line"></div>
+                        <div class="input-particles"></div>
+                        {% if form.first_name.errors %}
+                            <div class="field-error">
+                                {% for error in form.first_name.errors %}
+                                    <span class="error-text">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="input-group {% if form.email.errors %}has-error{% endif %}">
+                        <input type="email" name="email" id="id_email" required
+                               value="{{ form.email.value|default:'' }}">
+                        <label for="id_email">Email Address</label>
+                        <div class="input-line"></div>
+                        <div class="input-particles"></div>
+                        {% if form.email.errors %}
+                            <div class="field-error">
+                                {% for error in form.email.errors %}
+                                    <span class="error-text">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="input-group {% if form.password1.errors %}has-error{% endif %}">
+                        <input type="password" name="password1" id="id_password1" required>
+                        <label for="id_password1">Password</label>
+                        <div class="input-line"></div>
+                        <div class="input-particles"></div>
+                        <button type="button" class="password-toggle" id="passwordToggle">👁️</button>
+                        {% if form.password1.errors %}
+                            <div class="field-error">
+                                {% for error in form.password1.errors %}
+                                    <span class="error-text">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div class="input-group {% if form.password2.errors %}has-error{% endif %}">
+                        <input type="password" name="password2" id="id_password2" required>
+                        <label for="id_password2">Confirm Password</label>
+                        <div class="input-line"></div>
+                        <div class="input-particles"></div>
+                        <button type="button" class="password-toggle" id="confirmPasswordToggle">👁️</button>
+                        {% if form.password2.errors %}
+                            <div class="field-error">
+                                {% for error in form.password2.errors %}
+                                    <span class="error-text">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="terms" required>
+                            <span class="checkmark"></span>
+                            I agree to the <a href="javascript:void(0)" class="terms-link">Terms & Conditions</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="signup-btn">
+                        <span class="btn-text">Create Account</span>
+                        <div class="btn-particles"></div>
+                        <div class="btn-energy"></div>
+                    </button>
+                </form>
+                
+                <div class="login-link">
+                    <p>Already have an account? <a href="{% url 'login' %}">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="floating-quotes">
+            <div class="quote" data-character="luffy">"Adventure awaits!"</div>
+            <div class="quote" data-character="naruto">"Never give up!"</div>
+            <div class="quote" data-character="eren">"Keep moving forward!"</div>
+            <div class="quote" data-character="yuji">"I'll protect everyone!"</div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password toggle for signup page
+            const passwordToggle = document.getElementById('passwordToggle');
+            if (passwordToggle) {
+                passwordToggle.addEventListener('click', function() {
+                    const passwordInput = document.getElementById('id_password1');
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.textContent = type === 'password' ? '👁️' : '🙈';
+                });
+            }
+
+            const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
+            if (confirmPasswordToggle) {
+                confirmPasswordToggle.addEventListener('click', function() {
+                    const confirmPasswordInput = document.getElementById('id_password2');
+                    const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    confirmPasswordInput.setAttribute('type', type);
+                    this.textContent = type === 'password' ? '👁️' : '🙈';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

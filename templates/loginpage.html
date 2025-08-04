@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Anime Timeline Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+</head>
+<body>
+    <div class="particle-system"></div>
+
+    <div class="signup-container">
+        <div class="signup-card">
+            <div class="character-carousel">
+                <div class="character-silhouette"></div>
+                <div class="character-silhouette"></div>
+                <div class="character-silhouette"></div>
+                <div class="character-silhouette"></div>
+            </div>
+
+            <div>
+                <h1 class="signup-title">
+                    <span class="neon-text" data-text="Welcome Back">Welcome Back</span>
+                </h1>
+                <p class="signup-subtitle">Enter the anime universe</p>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post" class="form" id="login-form">
+                    {% csrf_token %}
+
+                    <div class="input-group">
+                        <input type="text" name="username" id="id_username"  required  />
+                        <label for="id_username">Username or Email</label>
+                        <div class="input-line"></div>
+                        <div class="input-particles"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" name="password" id="id_password"  required class="styled-input" />
+                        <label for="id_password">Password</label>
+                        <div class="input-line"></div>
+                        <button type="button" class="password-toggle" id="toggle-password">👁️</button>
+                    </div>
+
+                    <div class="form-options" style="justify-content: space-between; align-items: center;">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="remember_me">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                        <a href="{% url 'password_reset' %}" class="terms-link">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="signup-btn">
+                        <span class="btn-text">Enter Timeline</span>
+                    </button>
+                </form>
+
+                <div class="login-link">
+                    <p>New to the timeline? <a href="{% url 'signup' %}">Create Account</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="floating-quotes">
+            <div class="quote">"I'm gonna be the Pirate King!"</div>
+            <div class="quote">"I never go back on my word!"</div>
+            <div class="quote">"I will keep moving forward!"</div>
+            <div class="quote">"I'll save everyone!"</div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Password toggle
+        const togglePassword = document.getElementById('toggle-password');
+        if (togglePassword) {
+            togglePassword.addEventListener('click', function() {
+                const passwordInput = document.getElementById('id_password');
+                if (passwordInput) {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.textContent = type === 'password' ? '👁️' : '🙈';
+                }
+            });
+        }
+
+        // Particle system
+        const particleSystem = document.querySelector('.particle-system');
+        if (particleSystem) {
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('signup-particle');
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 8}s`;
+                particle.style.animationDuration = `${4 + Math.random() * 4}s`;
+                particleSystem.appendChild(particle);
+            }
+        }
+    });
+    </script>
+</body>
+</html>

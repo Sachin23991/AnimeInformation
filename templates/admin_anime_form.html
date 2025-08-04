@@ -1,0 +1,370 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ action }} Anime - Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Noto Sans JP', sans-serif;
+            min-height: 100vh;
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        .form-title {
+            color: #00f2e3;
+            font-family: 'Orbitron', monospace;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .image-option-group {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .option-title {
+            color: #00f2e3;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .form-label {
+            color: #f0f0f0;
+            margin-bottom: 0.5rem;
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #f0f0f0;
+            border-radius: 10px;
+        }
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #00f2e3;
+            color: #f0f0f0;
+            box-shadow: 0 0 10px rgba(0, 242, 227, 0.3);
+        }
+        .btn-admin {
+            background: linear-gradient(45deg, #00f2e3, #e6007e);
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 242, 227, 0.3);
+        }
+        .preview-container {
+            max-width: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        .preview-container img {
+            width: 100%;
+            height: auto;
+        }
+        .help-text {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        /* ✅ NEW: Video section styling */
+        .video-section {
+            background: rgba(230, 0, 126, 0.1);
+            border: 1px solid rgba(230, 0, 126, 0.3);
+        }
+        .video-preview {
+            margin-top: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .video-preview iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1 class="form-title">{{ action }} Anime</h1>
+            
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Basic Information -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label">Title</label>
+                        {{ form.title }}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label">Description</label>
+                        {{ form.description }}
+                    </div>
+                </div>
+                
+                <!-- ✅ NEW: Poster Image Options -->
+                <div class="image-option-group">
+                    <div class="option-title">
+                        🖼️ Poster Image Options
+                    </div>
+                    <p class="help-text">Choose one option: upload a file from your computer OR enter a URL. If both are provided, the uploaded file will be used.</p>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Upload Poster File</label>
+                            {{ form.poster_image }}
+                            <div class="help-text">Upload from your computer (JPG, PNG)</div>
+                            {% if anime and anime.poster_image %}
+                                <div class="preview-container">
+                                    <img src="{{ anime.poster_image.url }}" alt="Current poster">
+                                    <div class="help-text">Current uploaded poster</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Poster URL</label>
+                            {{ form.poster_url }}
+                            <div class="help-text">Or enter image URL</div>
+                            {% if anime and anime.poster_url %}
+                                <div class="preview-container">
+                                    <img src="{{ anime.poster_url }}" alt="Current poster URL" onerror="this.style.display='none'">
+                                    <div class="help-text">Current poster URL</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ✅ NEW: Banner Image Options -->
+                <div class="image-option-group">
+                    <div class="option-title">
+                        🌄 Banner Image Options
+                    </div>
+                    <p class="help-text">Choose one option: upload a file from your computer OR enter a URL. If both are provided, the uploaded file will be used.</p>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Upload Banner File</label>
+                            {{ form.banner_image }}
+                            <div class="help-text">Upload from your computer (JPG, PNG)</div>
+                            {% if anime and anime.banner_image %}
+                                <div class="preview-container">
+                                    <img src="{{ anime.banner_image.url }}" alt="Current banner">
+                                    <div class="help-text">Current uploaded banner</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Banner URL</label>
+                            {{ form.banner_url }}
+                            <div class="help-text">Or enter image URL</div>
+                            {% if anime and anime.banner_url %}
+                                <div class="preview-container">
+                                    <img src="{{ anime.banner_url }}" alt="Current banner URL" onerror="this.style.display='none'">
+                                    <div class="help-text">Current banner URL</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ✅ NEW: Video URLs Section -->
+                <div class="image-option-group video-section">
+                    <div class="option-title">
+                        🎬 Video & Media URLs
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Trailer URL</label>
+                            {{ form.trailer_url }}
+                            <div class="help-text">YouTube/Vimeo trailer URL</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Video URL</label>
+                            {{ form.video_url }}
+                            <div class="help-text">Main anime video/preview URL</div>
+                        </div>
+                    </div>
+                    
+                    <!-- ✅ Video Preview -->
+                    {% if anime and anime.video_url %}
+                        <div class="video-preview">
+                            <div class="help-text mb-2">Current Video Preview:</div>
+                            {% if 'youtube.com' in anime.video_url or 'youtu.be' in anime.video_url %}
+                                <iframe src="https://www.youtube.com/embed/{{ anime.video_url|slice:'32:' }}" allowfullscreen></iframe>
+                            {% else %}
+                                <a href="{{ anime.video_url }}" target="_blank" class="btn btn-outline-light btn-sm">View Current Video</a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Anime Details -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Genre</label>
+                        {{ form.genre }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Status</label>
+                        {{ form.status }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Release Year</label>
+                        {{ form.release_year }}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Total Episodes</label>
+                        {{ form.total_episodes }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Current Episode</label>
+                        {{ form.current_episode }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Rating (0-10)</label>
+                        {{ form.rating }}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Studio</label>
+                        {{ form.studio }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Timeline Position</label>
+                        {{ form.timeline_position }}
+                    </div>
+                </div>
+                
+                <!-- Checkboxes -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            {{ form.is_featured }}
+                            <label class="form-check-label text-light">
+                                Featured Anime (appears on homepage)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            {{ form.is_published }}
+                            <label class="form-check-label text-light">
+                                Published (visible to users)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn-admin">{{ action }} Anime</button>
+                    <a href="{% url 'admin_anime_list' %}" class="btn btn-outline-light">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Preview uploaded images
+        document.querySelector('input[name="poster_image"]').addEventListener('change', function(e) {
+            if (e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const existingPreview = document.querySelector('.poster-preview');
+                    if (existingPreview) existingPreview.remove();
+                    
+                    const preview = document.createElement('div');
+                    preview.className = 'preview-container poster-preview';
+                    preview.innerHTML = `
+                        <img src="${e.target.result}" alt="Poster preview">
+                        <div class="help-text">Preview</div>
+                    `;
+                    e.target.parentElement.appendChild(preview);
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        document.querySelector('input[name="banner_image"]').addEventListener('change', function(e) {
+            if (e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const existingPreview = document.querySelector('.banner-preview');
+                    if (existingPreview) existingPreview.remove();
+                    
+                    const preview = document.createElement('div');
+                    preview.className = 'preview-container banner-preview';
+                    preview.innerHTML = `
+                        <img src="${e.target.result}" alt="Banner preview">
+                        <div class="help-text">Preview</div>
+                    `;
+                    e.target.parentElement.appendChild(preview);
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        // ✅ NEW: Video URL preview functionality
+        function extractYouTubeId(url) {
+            const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        }
+
+        function updateVideoPreview() {
+            const videoUrl = document.querySelector('input[name="video_url"]').value;
+            const existingPreview = document.querySelector('.video-url-preview');
+            if (existingPreview) existingPreview.remove();
+
+            if (videoUrl) {
+                const youtubeId = extractYouTubeId(videoUrl);
+                if (youtubeId) {
+                    const preview = document.createElement('div');
+                    preview.className = 'video-preview video-url-preview';
+                    preview.innerHTML = `
+                        <div class="help-text mb-2">Video Preview:</div>
+                        <iframe src="https://www.youtube.com/embed/${youtubeId}" allowfullscreen></iframe>
+                    `;
+                    document.querySelector('input[name="video_url"]').parentElement.appendChild(preview);
+                }
+            }
+        }
+
+        // Add event listener for video URL changes
+        document.querySelector('input[name="video_url"]').addEventListener('blur', updateVideoPreview);
+    </script>
+</body>
+</html>

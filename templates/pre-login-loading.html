@@ -1,0 +1,407 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entering Anime World...</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: radial-gradient(circle at center, #0a0a0a, #12002e, #1a0033);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Video Container */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+            position: relative;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 80%;
+            max-width: 900px;
+            aspect-ratio: 16/9;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 0 50px rgba(230, 0, 126, 0.4),
+                0 0 100px rgba(230, 0, 126, 0.2);
+            border: 3px solid rgba(230, 0, 126, 0.6);
+            animation: narutoGlow 3s ease-in-out infinite alternate;
+        }
+
+        #narutoVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Naruto-themed Glow Effect */
+        @keyframes narutoGlow {
+            0% { 
+                box-shadow: 
+                    0 0 50px rgba(230, 0, 126, 0.4),
+                    0 0 100px rgba(230, 0, 126, 0.2);
+                transform: scale(1);
+            }
+            100% { 
+                box-shadow: 
+                    0 0 70px rgba(255, 165, 0, 0.6),
+                    0 0 140px rgba(255, 165, 0, 0.3);
+                transform: scale(1.02);
+            }
+        }
+
+        /* Loading Text */
+        .loading-text {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .loading-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #ff6b35;
+            text-shadow: 0 0 20px #ff6b35;
+            margin-bottom: 1rem;
+            animation: narutoTextPulse 2s ease-in-out infinite;
+        }
+
+        .loading-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        /* Naruto-style Progress Bar */
+        .progress-container {
+            width: 350px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b35, #ff9500, #ffd700);
+            border-radius: 3px;
+            width: 0%;
+            animation: narutoProgressFill 8s linear forwards;
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.6);
+        }
+
+        /* Skip Button */
+        .skip-btn {
+            position: absolute;
+            bottom: 8%;
+            right: 5%;
+            padding: 0.8rem 1.8rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(255, 107, 53, 0.7);
+            border-radius: 25px;
+            color: #ff6b35;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInDelay 2s ease 3s forwards;
+        }
+
+        .skip-btn:hover {
+            background: rgba(255, 107, 53, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Floating Ninja Elements */
+        .ninja-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .ninja-particle {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: ninjaFloat 8s linear infinite;
+        }
+
+        /* Animations */
+        @keyframes narutoTextPulse {
+            0%, 100% { 
+                transform: translateX(-50%) scale(1);
+                text-shadow: 0 0 20px #ff6b35;
+            }
+            50% { 
+                transform: translateX(-50%) scale(1.05);
+                text-shadow: 0 0 30px #ff6b35, 0 0 40px #ff9500;
+            }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes narutoProgressFill {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes fadeInDelay {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes ninjaFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) translateX(150px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Transition Effect */
+        .fade-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #ff6b35, #0a0a0a);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.2s ease-in-out;
+        }
+
+        .fade-transition.active {
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .video-wrapper {
+                width: 90%;
+            }
+            
+            .loading-title {
+                font-size: 1.8rem;
+            }
+            
+            .progress-container {
+                width: 280px;
+            }
+            
+            .skip-btn {
+                bottom: 5%;
+                right: 5%;
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-wrapper {
+                width: 95%;
+            }
+            
+            .loading-title {
+                font-size: 1.5rem;
+            }
+            
+            .loading-subtitle {
+                font-size: 1rem;
+            }
+            
+            .progress-container {
+                width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Ninja Particles -->
+    <div class="ninja-particles"></div>
+    
+    <!-- Loading Container -->
+    <div class="loading-container">
+        <!-- Video Wrapper -->
+        <div class="video-wrapper">
+            <video id="narutoVideo" autoplay muted>
+                <source src="https://res.cloudinary.com/db48wri4p/video/upload/v1754041923/Naruto_Sunset_Cliff_Video_Generation_online-video-cutter.com_k7072y.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <!-- Loading Text -->
+        <div class="loading-text">
+            <h1 class="loading-title">Welcome to the Ninja World...</h1>
+            <p class="loading-subtitle">Preparing your anime adventure</p>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <p id="loadingStatus">Gathering chakra energy...</p>
+        </div>
+        
+        <!-- Skip Button -->
+        <button class="skip-btn" id="skipBtn">Skip Intro →</button>
+    </div>
+    
+    <!-- Transition Effect -->
+    <div class="fade-transition" id="fadeTransition"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initPreLoginLoading();
+        });
+
+        function initPreLoginLoading() {
+            const video = document.getElementById('narutoVideo');
+            const skipBtn = document.getElementById('skipBtn');
+            const loadingStatus = document.getElementById('loadingStatus');
+            const fadeTransition = document.getElementById('fadeTransition');
+            
+            // Create floating ninja particles
+            createNinjaParticles();
+            
+            // Update loading status messages
+            const statusMessages = [
+                "Gathering chakra energy...",
+                "Connecting to Hidden Leaf Village...",
+                "Loading ninja techniques...",
+                "Synchronizing jutsu database...",
+                "Preparing for your journey...",
+                "Ready to begin your adventure!"
+            ];
+            
+            let messageIndex = 0;
+            const statusInterval = setInterval(() => {
+                if (messageIndex < statusMessages.length) {
+                    loadingStatus.textContent = statusMessages[messageIndex];
+                    messageIndex++;
+                } else {
+                    clearInterval(statusInterval);
+                }
+            }, 1300);
+            
+            // Video event listeners
+            video.addEventListener('loadeddata', () => {
+                console.log('✅ Naruto video loaded');
+                video.play().catch(e => {
+                    console.log('Video autoplay blocked, will play on user interaction');
+                });
+            });
+            
+            video.addEventListener('ended', () => {
+                console.log('✅ Video ended, redirecting to login page');
+                redirectToLoginPage();
+            });
+            
+            video.addEventListener('error', (e) => {
+                console.error('❌ Video loading error:', e);
+                // Redirect after 3 seconds if video fails
+                setTimeout(redirectToLoginPage, 3000);
+            });
+            
+            // Skip button functionality
+            skipBtn.addEventListener('click', () => {
+                console.log('User clicked skip button');
+                redirectToLoginPage();
+            });
+            
+            // Auto redirect after 10 seconds as fallback
+            setTimeout(() => {
+                if (!document.hidden) {
+                    console.log('Auto redirect after 10 seconds');
+                    redirectToLoginPage();
+                }
+            }, 10000);
+            
+            function redirectToLoginPage() {
+                // Start transition effect
+                fadeTransition.classList.add('active');
+                
+                // Redirect after transition
+                setTimeout(() => {
+                    window.location.href = "{% url 'login' %}";
+                }, 1200);
+            }
+        }
+        
+        function createNinjaParticles() {
+            const particlesContainer = document.querySelector('.ninja-particles');
+            
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'ninja-particle';
+                
+                // Random ninja emojis
+                const ninjaElements = ['🥷', '⚡', '🍃', '🌟', '🔥'];
+                particle.textContent = ninjaElements[Math.floor(Math.random() * ninjaElements.length)];
+                
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                
+                particlesContainer.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 10000);
+            }
+            
+            // Create particles periodically
+            setInterval(createParticle, 500);
+        }
+    </script>
+</body>
+</html>

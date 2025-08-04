@@ -1,0 +1,407 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entering Anime Universe...</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: radial-gradient(circle at center, #0a0a0a, #12002e, #1a0033);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Video Container with Smaller Width */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+            position: relative;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 70%;  /* ✅ Smaller width as requested */
+            max-width: 800px;
+            aspect-ratio: 16/9;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 0 50px rgba(0, 242, 227, 0.3),
+                0 0 100px rgba(0, 242, 227, 0.1);
+            border: 2px solid rgba(0, 242, 227, 0.5);
+            animation: portalGlow 2s ease-in-out infinite alternate;
+        }
+
+        #portalVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Portal Glow Effect */
+        @keyframes portalGlow {
+            0% { 
+                box-shadow: 
+                    0 0 50px rgba(0, 242, 227, 0.3),
+                    0 0 100px rgba(0, 242, 227, 0.1);
+                transform: scale(1);
+            }
+            100% { 
+                box-shadow: 
+                    0 0 80px rgba(0, 242, 227, 0.5),
+                    0 0 150px rgba(0, 242, 227, 0.2);
+                transform: scale(1.02);
+            }
+        }
+
+        /* Loading Text */
+        .loading-text {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .loading-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #00f2e3;
+            text-shadow: 0 0 20px #00f2e3;
+            margin-bottom: 1rem;
+            animation: textPulse 2s ease-in-out infinite;
+        }
+
+        .loading-subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00f2e3, #6a00f4, #e6007e);
+            border-radius: 2px;
+            width: 0%;
+            animation: progressFill 8s linear forwards;
+        }
+
+        /* Skip Button */
+        .skip-btn {
+            position: absolute;
+            bottom: 10%;
+            right: 5%;
+            padding: 0.8rem 1.5rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 242, 227, 0.5);
+            border-radius: 25px;
+            color: #00f2e3;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInDelay 2s ease 3s forwards;
+        }
+
+        .skip-btn:hover {
+            background: rgba(0, 242, 227, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 242, 227, 0.3);
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00f2e3;
+            border-radius: 50%;
+            animation: particleFloat 6s linear infinite;
+        }
+
+        /* Animations */
+        @keyframes textPulse {
+            0%, 100% { 
+                transform: translateX(-50%) scale(1);
+                text-shadow: 0 0 20px #00f2e3;
+            }
+            50% { 
+                transform: translateX(-50%) scale(1.05);
+                text-shadow: 0 0 30px #00f2e3, 0 0 40px #00f2e3;
+            }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes progressFill {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes fadeInDelay {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Transition Effect */
+        .fade-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #00f2e3, #0a0a0a);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .fade-transition.active {
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .video-wrapper {
+                width: 85%;
+            }
+            
+            .loading-title {
+                font-size: 1.5rem;
+            }
+            
+            .progress-container {
+                width: 250px;
+            }
+            
+            .skip-btn {
+                bottom: 5%;
+                right: 5%;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-wrapper {
+                width: 90%;
+            }
+            
+            .loading-title {
+                font-size: 1.2rem;
+            }
+            
+            .loading-subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .progress-container {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="particles"></div>
+    
+    <!-- Loading Container -->
+    <div class="loading-container">
+        <!-- Video Wrapper with Smaller Width -->
+        <div class="video-wrapper">
+            <video id="portalVideo" autoplay muted>
+                <source src="https://res.cloudinary.com/db48wri4p/video/upload/v1753984246/Mystical_Anime_Portal_Video_Generation.mp4_1753982362224_fsjtcq.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <!-- Loading Text -->
+        <div class="loading-text">
+            <h1 class="loading-title">Opening Portal...</h1>
+            <p class="loading-subtitle">Connecting to the Anime Universe</p>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <p id="loadingStatus">Initializing dimensional gateway...</p>
+        </div>
+        
+        <!-- Skip Button -->
+        <button class="skip-btn" id="skipBtn">Skip Intro →</button>
+    </div>
+    
+    <!-- Transition Effect -->
+    <div class="fade-transition" id="fadeTransition"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initLoadingPage();
+        });
+
+        function initLoadingPage() {
+            const video = document.getElementById('portalVideo');
+            const skipBtn = document.getElementById('skipBtn');
+            const loadingStatus = document.getElementById('loadingStatus');
+            const fadeTransition = document.getElementById('fadeTransition');
+            
+            // Create floating particles
+            createFloatingParticles();
+            
+            // Update loading status messages
+            const statusMessages = [
+                "Initializing dimensional gateway...",
+                "Connecting to anime servers...",
+                "Loading character databases...",
+                "Synchronizing timeline data...",
+                "Portal stabilization complete...",
+                "Ready to enter anime universe!"
+            ];
+            
+            let messageIndex = 0;
+            const statusInterval = setInterval(() => {
+                if (messageIndex < statusMessages.length) {
+                    loadingStatus.textContent = statusMessages[messageIndex];
+                    messageIndex++;
+                } else {
+                    clearInterval(statusInterval);
+                }
+            }, 1200);
+            
+            // Video event listeners
+            video.addEventListener('loadeddata', () => {
+                console.log('✅ Portal video loaded');
+                video.play().catch(e => {
+                    console.log('Video autoplay blocked, will play on user interaction');
+                });
+            });
+            
+            video.addEventListener('ended', () => {
+                console.log('✅ Video ended, redirecting to explore page');
+                redirectToExplorePage();
+            });
+            
+            video.addEventListener('error', (e) => {
+                console.error('❌ Video loading error:', e);
+                // Redirect after 3 seconds if video fails
+                setTimeout(redirectToExplorePage, 3000);
+            });
+            
+            // Skip button functionality
+            skipBtn.addEventListener('click', () => {
+                console.log('User clicked skip button');
+                redirectToExplorePage();
+            });
+            
+            // Auto redirect after 10 seconds as fallback
+            setTimeout(() => {
+                if (!document.hidden) {
+                    console.log('Auto redirect after 10 seconds');
+                    redirectToExplorePage();
+                }
+            }, 10000);
+            
+            function redirectToExplorePage() {
+                // Start transition effect
+                fadeTransition.classList.add('active');
+                
+                // Redirect after transition
+                setTimeout(() => {
+                    window.location.href = "{% url 'explore_main' %}";
+                }, 1000);
+            }
+        }
+        
+        function createFloatingParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                
+                // Random colors
+                const colors = ['#00f2e3', '#e6007e', '#6a00f4'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                particlesContainer.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 8000);
+            }
+            
+            // Create particles periodically
+            setInterval(createParticle, 400);
+        }
+    </script>
+</body>
+</html>

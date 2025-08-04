@@ -1,0 +1,343 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Anime - Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Noto Sans JP', sans-serif;
+            min-height: 100vh;
+        }
+        .admin-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1400px;
+        }
+        .page-title {
+            color: #00f2e3;
+            font-family: 'Orbitron', monospace;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        .anime-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .anime-card:hover {
+            transform: translateY(-5px);
+        }
+        .anime-header {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .anime-poster {
+            width: 80px;
+            height: 120px;
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .anime-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .poster-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #00f2e3, #e6007e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .anime-info {
+            flex: 1;
+        }
+        .anime-title {
+            color: #00f2e3;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        .anime-meta {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .genre-badge {
+            background: linear-gradient(45deg, #00f2e3, #e6007e);
+            color: white;
+        }
+        .status-badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: #f0f0f0;
+        }
+        .status-ongoing { background: #2ecc71; color: white; }
+        .status-completed { background: #3498db; color: white; }
+        .status-upcoming { background: #f39c12; color: white; }
+        .status-hiatus { background: #e74c3c; color: white; }
+        .featured-badge {
+            background: #f39c12;
+            color: white;
+        }
+        .published-badge {
+            background: #2ecc71;
+            color: white;
+        }
+        .unpublished-badge {
+            background: #e74c3c;
+            color: white;
+        }
+        .anime-description {
+            color: #f0f0f0;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        .anime-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+        .stat-item {
+            color: #f0f0f0;
+        }
+        .stat-value {
+            color: #00f2e3;
+            font-weight: bold;
+        }
+        .btn-admin {
+            background: linear-gradient(45deg, #00f2e3, #e6007e);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.25rem;
+            font-size: 0.85rem;
+        }
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 242, 227, 0.3);
+            color: white;
+        }
+        .btn-admin.btn-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.8rem;
+        }
+        .btn-danger {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+        .create-new {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(0, 242, 227, 0.5);
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            color: #f0f0f0;
+        }
+        .create-new:hover {
+            border-color: #00f2e3;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #f0f0f0;
+        }
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .search-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #f0f0f0;
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            width: 300px;
+        }
+        .search-box:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #00f2e3;
+            color: #f0f0f0;
+            box-shadow: 0 0 10px rgba(0, 242, 227, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="admin-container">
+            <h1 class="page-title">Manage Anime</h1>
+            
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <div>
+                    <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-light">← Back to Dashboard</a>
+                </div>
+                <div>
+                    <input type="text" class="search-box" placeholder="Search anime..." id="searchInput">
+                </div>
+                <div>
+                    <a href="{% url 'admin_anime_create' %}" class="btn-admin">+ Add New Anime</a>
+                </div>
+            </div>
+
+            <!-- Anime Grid -->
+            <div class="anime-grid">
+                {% for anime in anime_list %}
+                <div class="anime-card" data-title="{{ anime.title|lower }}">
+                    <div class="anime-header">
+                        <div class="anime-poster">
+                            {% if anime.get_poster_url %}
+                            <img src="{{ anime.get_poster_url }}" alt="{{ anime.title }}">
+                            {% else %}
+                            <div class="poster-placeholder">
+                                {{ anime.title|first }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="anime-info">
+                            <h3 class="anime-title">{{ anime.title }}</h3>
+                            <div class="anime-meta">
+                                <span class="badge genre-badge">{{ anime.get_genre_display }}</span>
+                                <span class="badge status-badge status-{{ anime.status }}">{{ anime.get_status_display }}</span>
+                                {% if anime.is_featured %}
+                                <span class="badge featured-badge">Featured</span>
+                                {% endif %}
+                                {% if anime.is_published %}
+                                <span class="badge published-badge">Published</span>
+                                {% else %}
+                                <span class="badge unpublished-badge">Draft</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="anime-description">{{ anime.description|truncatewords:20 }}</p>
+                    
+                    <div class="anime-stats">
+                        <div class="stat-item">
+                            <span>Episodes:</span> 
+                            <span class="stat-value">{{ anime.current_episode }}/{{ anime.total_episodes }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Rating:</span> 
+                            <span class="stat-value">{{ anime.rating }}/10</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Studio:</span> 
+                            <span class="stat-value">{{ anime.studio }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Year:</span> 
+                            <span class="stat-value">{{ anime.release_year }}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- ✅ THIS IS WHERE YOU ADD THE BUTTON CODE -->
+                    <div class="d-flex gap-1">
+                        <a href="{% url 'admin_anime_edit' anime.id %}" class="btn-admin btn-sm">Edit</a>
+                        <a href="{% url 'admin_character_list' anime.id %}" class="btn-admin btn-sm">Characters ({{ anime.characters.count }})</a>
+                        <button type="button" class="btn-admin btn-danger"
+        onclick="deleteCharacter({{ character.id }}, '{{ character.name|escapejs }}')">
+    Delete
+</button>
+
+
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state">
+                    <h3>No Anime Created Yet</h3>
+                    <p>Start building your anime database!</p>
+                    <a href="{% url 'admin_anime_create' %}" class="btn-admin">Create Your First Anime</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title text-light">Confirm Delete</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-light">
+                    <p>Are you sure you want to delete <strong id="animeName"></strong>?</p>
+                    <p class="text-muted">This will also delete all associated characters and episodes. This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteForm" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete Anime</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Delete anime function
+        function deleteAnime(animeId, animeTitle) {
+            document.getElementById('animeName').textContent = animeTitle;
+            document.getElementById('deleteForm').action = '{% url "admin_anime_delete" 0 %}'.replace('0', animeId);
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const animeCards = document.querySelectorAll('.anime-card');
+            
+            animeCards.forEach(card => {
+                const title = card.getAttribute('data-title');
+                if (title.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

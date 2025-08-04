@@ -1,0 +1,504 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore - Anime Timeline Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/explore.css' %}">
+</head>
+<body>
+    <!-- Animated background with floating sakura petals -->
+    <div class="sakura-container">
+        <div class="sakura-petals"></div>
+    </div>
+    
+ 
+   <!-- Navigation with smooth scrolling -->
+<nav class="anime-nav">
+    <div class="nav-container">
+        <div class="logo-portal">
+            <h1 class="nav-logo">ANIMEINFO</h1>
+            <div class="portal-ring"></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{% url 'landing' %}" class="nav-link">Home</a></li>
+            <li><a href="#genresSection" class="nav-link active" data-scroll="genresSection">Explore</a></li>
+            <li><a href="#timelineSection" class="nav-link" data-scroll="timelineSection">Timeline</a></li>
+            <li><a href="#charactersSection" class="nav-link" data-scroll="charactersSection">Characters</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+    <!-- Hero Section with Your Entrance Video -->
+    <!-- Replace the hero section in explore.html with this -->
+<section class="hero-explore">
+    <div class="hero-background">
+        <!-- Static mystical background instead of video -->
+        <div class="portal-background">
+            <div class="portal-ring portal-ring-1"></div>
+            <div class="portal-ring portal-ring-2"></div>
+            <div class="portal-ring portal-ring-3"></div>
+        </div>
+        
+        <div class="hero-overlay">
+            <h1 class="hero-title">
+                <span class="glitch-text" data-text="EXPLORE THE ANIME UNIVERSE">EXPLORE THE ANIME UNIVERSE</span>
+            </h1>
+            <p class="hero-subtitle">Discover infinite worlds, legendary characters, and epic adventures</p>
+            <button class="enter-portal-btn" id="enterPortalBtn">
+                <span class="btn-text">Begin Your Journey</span>
+                <div class="btn-energy-ring"></div>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Anime Genres Section with Floating Cards -->
+    <section class="anime-genres" id="genresSection">
+        <div class="section-container">
+            <h2 class="section-title">
+                <span class="title-kanji">ジャンル</span>
+                <span class="title-english">Anime Genres</span>
+            </h2>
+            
+            <div class="genres-grid">
+                <!-- Shounen Card -->
+                <div class="genre-card" data-genre="shounen">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="card-icon">⚡</div>
+                            <h3>Shounen</h3>
+                            <p>Battle • Friendship • Power</p>
+                            <div class="energy-particles"></div>
+                        </div>
+                        <div class="card-back">
+                            <div class="anime-preview">
+                                <div class="energy-aura"></div>
+                                <h4>Epic Battles Await</h4>
+                                <div class="power-level-bar">
+                                    <div class="power-fill"></div>
+                                </div>
+                                <div class="battle-effects">
+                                    <span class="energy-blast">💥</span>
+                                    <span class="energy-blast">⚡</span>
+                                    <span class="energy-blast">🔥</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seinen Card -->
+                <div class="genre-card" data-genre="seinen">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="card-icon">🗾</div>
+                            <h3>Seinen</h3>
+                            <p>Mature • Complex • Dark</p>
+                            <div class="shadow-particles"></div>
+                        </div>
+                        <div class="card-back">
+                            <div class="anime-preview">
+                                <div class="shadow-effect"></div>
+                                <h4>Deep Narratives</h4>
+                                <div class="complexity-meter">
+                                    <div class="complexity-fill"></div>
+                                </div>
+                                <div class="dark-symbols">
+                                    <span>⚔️</span><span>🌙</span><span>💀</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shoujo Card -->
+                <div class="genre-card" data-genre="shoujo">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="card-icon">🌸</div>
+                            <h3>Shoujo</h3>
+                            <p>Romance • Emotions • Beauty</p>
+                            <div class="sparkle-particles"></div>
+                        </div>
+                        <div class="card-back">
+                            <div class="anime-preview">
+                                <div class="sparkle-effect"></div>
+                                <h4>Heartfelt Stories</h4>
+                                <div class="heart-animation">💖</div>
+                                <div class="romance-effects">
+                                    <span class="heart-float">💕</span>
+                                    <span class="heart-float">✨</span>
+                                    <span class="heart-float">🌹</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fantasy Card -->
+                <div class="genre-card" data-genre="fantasy">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="card-icon">🏰</div>
+                            <h3>Fantasy</h3>
+                            <p>Magic • Adventure • Worlds</p>
+                            <div class="magic-particles"></div>
+                        </div>
+                        <div class="card-back">
+                            <div class="anime-preview">
+                                <div class="magic-circle"></div>
+                                <h4>Mystical Realms</h4>
+                                <div class="rune-symbols">
+                                    <span class="rune">⚡</span>
+                                    <span class="rune">🔮</span>
+                                    <span class="rune">⭐</span>
+                                </div>
+                                <div class="spell-casting"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mecha Card -->
+                <div class="genre-card" data-genre="mecha">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="card-icon">🤖</div>
+                            <h3>Mecha</h3>
+                            <p>Robots • Technology • Future</p>
+                            <div class="tech-particles"></div>
+                        </div>
+                        <div class="card-back">
+                            <div class="anime-preview">
+                                <div class="tech-grid"></div>
+                                <h4>Giant Robots</h4>
+                                <div class="mecha-stats">
+                                    <div class="stat-bar"></div>
+                                    <div class="stat-bar"></div>
+                                    <div class="stat-bar"></div>
+                                </div>
+                                <div class="mecha-effects">
+                                    <span class="laser">🔴</span>
+                                    <span class="laser">🔵</span>
+                                    <span class="laser">🟢</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Horror Card -->
+                <div class="genre-card" data-genre="horror">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="card-icon">👹</div>
+                            <h3>Horror</h3>
+                            <p>Fear • Supernatural • Thriller</p>
+                            <div class="darkness-particles"></div>
+                        </div>
+                        <div class="card-back">
+                            <div class="anime-preview">
+                                <div class="darkness-effect"></div>
+                                <h4>Face Your Fears</h4>
+                                <div class="fear-meter">
+                                    <div class="fear-pulse"></div>
+                                </div>
+                                <div class="horror-effects">
+                                    <span class="ghost">👻</span>
+                                    <span class="ghost">🕷️</span>
+                                    <span class="ghost">⚡</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Explorer with Interactive Elements -->
+    <section class="timeline-explorer" id="timelineSection">
+        <div class="section-container">
+            <h2 class="section-title">
+                <span class="title-kanji">時代</span>
+                <span class="title-english">Anime Timeline</span>
+            </h2>
+            
+            <div class="timeline-container">
+                <div class="timeline-line">
+                    <div class="timeline-progress"></div>
+                    <div class="timeline-energy-flow"></div>
+                </div>
+                
+                <!-- Timeline Nodes -->
+                <div class="timeline-node" data-era="1960s" style="left: 10%;">
+                    <div class="node-circle">
+                        <span class="node-year">1960s</span>
+                        <div class="node-pulse"></div>
+                    </div>
+                    <div class="node-content">
+                        <h4>The Golden Age Begins</h4>
+                        <p>Astro Boy, Speed Racer</p>
+                        <div class="era-preview">
+                            <div class="vintage-effect">📺</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-node" data-era="1980s" style="left: 30%;">
+                    <div class="node-circle">
+                        <span class="node-year">1980s</span>
+                        <div class="node-pulse"></div>
+                    </div>
+                    <div class="node-content">
+                        <h4>Mecha Revolution</h4>
+                        <p>Gundam, Macross</p>
+                        <div class="era-preview">
+                            <div class="mecha-transform">🤖</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-node" data-era="1990s" style="left: 50%;">
+                    <div class="node-circle">
+                        <span class="node-year">1990s</span>
+                        <div class="node-pulse"></div>
+                    </div>
+                    <div class="node-content">
+                        <h4>Mainstream Explosion</h4>
+                        <p>Dragon Ball Z, Sailor Moon</p>
+                        <div class="era-preview">
+                            <div class="energy-blast">💥</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-node" data-era="2000s" style="left: 70%;">
+                    <div class="node-circle">
+                        <span class="node-year">2000s</span>
+                        <div class="node-pulse"></div>
+                    </div>
+                    <div class="node-content">
+                        <h4>Digital Renaissance</h4>
+                        <p>Naruto, One Piece</p>
+                        <div class="era-preview">
+                            <div class="digital-matrix">📱</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-node" data-era="2020s" style="left: 90%;">
+                    <div class="node-circle">
+                        <span class="node-year">2020s</span>
+                        <div class="node-pulse"></div>
+                    </div>
+                    <div class="node-content">
+                        <h4>Global Phenomenon</h4>
+                        <p>Demon Slayer, Attack on Titan</p>
+                        <div class="era-preview">
+                            <div class="modern-effects">🌍</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Character Showcase with 3D Card Effects -->
+    <section class="character-showcase" id="charactersSection">
+        <div class="section-container">
+            <h2 class="section-title">
+                <span class="title-kanji">英雄</span>
+                <span class="title-english">Legendary Heroes</span>
+            </h2>
+            
+            <div class="characters-carousel">
+                <div class="character-card" data-character="luffy">
+                    <div class="character-3d">
+                        <div class="character-front">
+                            <div class="character-image">
+                                <div class="rubber-effect">🏴‍☠️</div>
+                                <div class="power-aura luffy-aura"></div>
+                            </div>
+                            <h3>Monkey D. Luffy</h3>
+                            <p>Future Pirate King</p>
+                        </div>
+                        <div class="character-back">
+                            <div class="power-showcase">
+                                <h4>Gear Fifth</h4>
+                                <div class="rubber-animation"></div>
+                                <div class="bounty">Bounty: 3,000,000,000</div>
+                                <div class="luffy-attacks">
+                                    <span class="attack">👊</span>
+                                    <span class="attack">🌪️</span>
+                                    <span class="attack">⚡</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="character-card" data-character="naruto">
+                    <div class="character-3d">
+                        <div class="character-front">
+                            <div class="character-image">
+                                <div class="chakra-effect">🍃</div>
+                                <div class="power-aura naruto-aura"></div>
+                            </div>
+                            <h3>Naruto Uzumaki</h3>
+                            <p>Seventh Hokage</p>
+                        </div>
+                        <div class="character-back">
+                            <div class="power-showcase">
+                                <h4>Rasengan Master</h4>
+                                <div class="chakra-spiral"></div>
+                                <div class="ninja-rank">Rank: Hokage</div>
+                                <div class="naruto-jutsu">
+                                    <span class="jutsu">🌀</span>
+                                    <span class="jutsu">🦊</span>
+                                    <span class="jutsu">⚡</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="character-card" data-character="goku">
+                    <div class="character-3d">
+                        <div class="character-front">
+                            <div class="character-image">
+                                <div class="saiyan-aura">⚡</div>
+                                <div class="power-aura goku-aura"></div>
+                            </div>
+                            <h3>Son Goku</h3>
+                            <p>Saiyan Warrior</p>
+                        </div>
+                        <div class="character-back">
+                            <div class="power-showcase">
+                                <h4>Ultra Instinct</h4>
+                                <div class="ki-energy"></div>
+                                <div class="power-level">Power: Over 9000!</div>
+                                <div class="goku-forms">
+                                    <span class="form">🔥</span>
+                                    <span class="form">💙</span>
+                                    <span class="form">✨</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Anime Stats Dashboard -->
+    <section class="anime-stats">
+        <div class="section-container">
+            <h2 class="section-title">
+                <span class="title-kanji">統計</span>
+                <span class="title-english">Anime Statistics</span>
+            </h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📺</div>
+                    <div class="stat-number" data-target="15000">0</div>
+                    <div class="stat-label">Anime Series</div>
+                    <div class="stat-progress">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="stat-particles"></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🎬</div>
+                    <div class="stat-number" data-target="3000">0</div>
+                    <div class="stat-label">Movies</div>
+                    <div class="stat-progress">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="stat-particles"></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-number" data-target="50000">0</div>
+                    <div class="stat-label">Characters</div>
+                    <div class="stat-progress">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="stat-particles"></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🌍</div>
+                    <div class="stat-number" data-target="200">0</div>
+                    <div class="stat-label">Studios</div>
+                    <div class="stat-progress">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="stat-particles"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Portal -->
+    <section class="search-portal">
+        <div class="section-container">
+            <h2 class="section-title">
+                <span class="title-kanji">検索</span>
+                <span class="title-english">Find Your Anime</span>
+            </h2>
+            
+            <div class="search-container">
+                <div class="search-circle">
+                    <input type="text" id="animeSearch" placeholder="Search anime, characters, genres...">
+                    <button class="search-btn">
+                        <span class="search-icon">🔍</span>
+                        <div class="search-ripple"></div>
+                    </button>
+                    <div class="search-energy-ring"></div>
+                </div>
+                <div class="search-suggestions">
+                    <div class="suggestion-item">One Piece</div>
+                    <div class="suggestion-item">Attack on Titan</div>
+                    <div class="suggestion-item">Demon Slayer</div>
+                    <div class="suggestion-item">Naruto</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer with Animated Elements -->
+    <footer class="anime-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>ANIMEINFO</h3>
+                    <div class="logo-animation"></div>
+                </div>
+                <div class="footer-links">
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AnimeInfo. Made with ❤️ for anime fans</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/explore.js' %}"></script>
+</body>
+</html>

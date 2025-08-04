@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Universe - Timeline Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/anime_showcase.css' %}">
+</head>
+<body>
+    <div class="showcase-container">
+        <!-- Header -->
+        <header class="showcase-header">
+            <nav class="showcase-nav">
+                <div class="nav-brand">
+                    <h2>ANIME UNIVERSE</h2>
+                </div>
+                <div class="nav-links">
+                    <a href="{% url 'homepage' %}">Home</a>
+                    <a href="{% url 'explore' %}">Explore</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="neon-text">Your Anime Journey</span>
+                    <span class="subtitle">Begins Here</span>
+                </h1>
+                <p class="hero-description">Discover {{ total_anime }} incredible anime series, from timeless classics to modern masterpieces</p>
+            </div>
+            <div class="floating-elements">
+                <div class="floating-star"></div>
+                <div class="floating-star"></div>
+                <div class="floating-star"></div>
+            </div>
+        </section>
+
+        <!-- Genre Filter -->
+        <section class="genre-filter">
+            <h3>Filter by Genre</h3>
+            <div class="genre-buttons">
+                <button class="genre-btn active" data-genre="all">All</button>
+                {% for genre_code, genre_name in genres %}
+                <button class="genre-btn" data-genre="{{ genre_code }}">{{ genre_name }}</button>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Featured Anime Section -->
+        {% if featured_anime %}
+        <section class="featured-section">
+            <h2 class="section-title"><span class="icon">⭐</span> Featured Anime</h2>
+            <div class="featured-grid">
+                {% for anime in featured_anime %}
+                <div class="featured-card" data-genre="{{ anime.genre }}">
+                    {% if anime.get_banner_url %}
+                    <div class="card-image">
+                        <img src="{{ anime.get_banner_url }}" alt="{{ anime.title }}">
+                        <div class="image-overlay">
+                            <div class="play-button">▶</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="card-content">
+                        <h3>{{ anime.title }}</h3>
+                        <div class="anime-meta">
+                            <span class="genre-tag">{{ anime.get_genre_display }}</span>
+                            <span class="year">{{ anime.release_year }}</span>
+                            <span class="rating">⭐ {{ anime.rating }}/10</span>
+                        </div>
+                        <p class="anime-description">{{ anime.description|truncatewords:20 }}</p>
+                        <div class="anime-stats">
+                            <div class="stat"><span class="stat-label">Episodes:</span> <span class="stat-value">{{ anime.current_episode }}/{{ anime.total_episodes }}</span></div>
+                            <div class="stat"><span class="stat-label">Studio:</span> <span class="stat-value">{{ anime.studio }}</span></div>
+                            <div class="stat"><span class="stat-label">Status:</span> <span class="stat-value status-{{ anime.status }}">{{ anime.get_status_display }}</span></div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="{% url 'anime_detail' anime.id %}" class="btn-primary">View Details</a>
+                            {% if anime.trailer_url %}
+                            <a href="{{ anime.trailer_url }}" target="_blank" class="btn-secondary">Watch Trailer</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- All Anime Grid -->
+        <section class="anime-grid-section">
+            <h2 class="section-title"><span class="icon">📺</span> All Anime Series</h2>
+            <div class="anime-grid">
+                {% for anime in all_anime %}
+                <div class="anime-card" data-genre="{{ anime.genre }}">
+                    <div class="card-poster">
+                        {% if anime.get_poster_url %}
+                        <img src="{{ anime.get_poster_url }}" alt="{{ anime.title }}">
+                        {% else %}
+                        <div class="poster-placeholder">
+                            <span>{{ anime.title|first }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="card-overlay">
+                            <div class="overlay-content">
+                                <h4>{{ anime.title }}</h4>
+                                <p>{{ anime.get_genre_display }} • {{ anime.release_year }}</p>
+                                <div class="rating-stars">
+                                    {% for i in "12345"|make_list %}
+                                        {% if forloop.counter <= anime.rating|floatformat:0|add:0 %}
+                                            <span class="star filled">★</span>
+                                        {% else %}
+                                            <span class="star">☆</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <a href="{% url 'anime_detail' anime.id %}" class="view-btn">View More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{ anime.title }}</h3>
+                        <div class="info-badges">
+                            <span class="badge genre-badge">{{ anime.get_genre_display }}</span>
+                            <span class="badge status-badge status-{{ anime.status }}">{{ anime.get_status_display }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state">
+                    <h3>No Anime Found</h3>
+                    <p>The admin hasn't added any anime yet. Check back soon!</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        {% if timeline_anime %}
+        <section class="timeline-section">
+            <h2 class="section-title"><span class="icon">⏰</span> Anime Timeline (2000-2025)</h2>
+            <div class="timeline-container">
+                {% for anime in timeline_anime %}
+                <div class="timeline-item" data-year="{{ anime.timeline_position }}">
+                    <div class="timeline-year">{{ anime.timeline_position }}</div>
+                    <div class="timeline-content">
+                        <div class="timeline-poster">
+                            {% if anime.get_poster_url %}
+                            <img src="{{ anime.get_poster_url }}" alt="{{ anime.title }}">
+                            {% endif %}
+                        </div>
+                        <div class="timeline-info">
+                            <h4>{{ anime.title }}</h4>
+                            <p>{{ anime.description|truncatewords:15 }}</p>
+                            <a href="{% url 'anime_detail' anime.id %}" class="timeline-link">Learn More →</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Characters Showcase -->
+        {% if popular_characters %}
+        <section class="characters-section">
+            <h2 class="section-title"><span class="icon">👥</span> Popular Characters</h2>
+            <div class="characters-grid">
+                {% for character in popular_characters %}
+                <div class="character-card">
+                    {% if character.get_character_image_url %}
+                    <div class="character-image">
+                        <img src="{{ character.get_character_image_url }}" alt="{{ character.name }}">
+                    </div>
+                    {% endif %}
+                    <div class="character-info">
+                        <h4>{{ character.name }}</h4>
+                        <p class="character-anime">{{ character.anime.title }}</p>
+                        <p class="character-description">{{ character.description|truncatewords:10 }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Statistics Section -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-number">{{ total_anime }}</div><div class="stat-label">Total Anime</div></div>
+                <div class="stat-card"><div class="stat-number">{{ total_episodes }}</div><div class="stat-label">Total Episodes</div></div>
+                <div class="stat-card"><div class="stat-number">{{ total_characters }}</div><div class="stat-label">Characters</div></div>
+        <div class="stat-card"><div class="stat-number">{{ unique_genres }}</div><div class="stat-label">Genres</div></div>
+
+            </div>
+        </section>
+    </div>
+    <!-- Add this search section to anime_showcase.html -->
+<div class="search-section">
+    <form method="GET" class="search-form">
+        <input 
+            type="text" 
+            name="search" 
+            value="{{ search_query }}" 
+            placeholder="Search anime..." 
+            class="search-input"
+        >
+        <button type="submit" class="search-btn">Search</button>
+    </form>
+    
+    {% if search_query %}
+        <div class="search-results">
+            <p>Search results for: "<strong>{{ search_query }}</strong>" ({{ total_anime }} found)</p>
+            <a href="{% url 'anime_showcase' %}" class="clear-search">Clear search</a>
+        </div>
+    {% endif %}
+</div>
+
+
+    <script src="{% static 'js/anime_showcase.js' %}"></script>
+</body>
+</html>

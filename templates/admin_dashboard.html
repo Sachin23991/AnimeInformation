@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Anime Timeline Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Noto Sans JP', sans-serif;
+            min-height: 100vh;
+        }
+        .admin-header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .stats-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #00f2e3;
+        }
+        .btn-admin {
+            background: linear-gradient(45deg, #00f2e3, #e6007e);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        .recent-anime {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="mb-0">Admin Dashboard</h1>
+                    <p class="mb-0">Welcome back, {{ user.first_name|default:user.username }}!</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <a href="{% url 'logout' %}" class="btn btn-outline-light">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number">{{ total_anime }}</div>
+                    <div>Total Anime</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number">{{ published_anime }}</div>
+                    <div>Published</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number">{{ featured_anime }}</div>
+                    <div>Featured</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number">{{ total_characters }}</div>
+                    <div>Characters</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h3 class="text-white mb-3">Quick Actions</h3>
+                <a href="/admin/" class="btn-admin">Django Admin</a>
+                <a href="{% url 'anime_showcase' %}" class="btn-admin">View Site</a>
+                
+                    <a href="{% url 'admin_anime_list' %}" class="btn btn-outline-light">Manage Anime</a>
+                
+            </div>
+        </div>
+        <!-- Add this stats card to your admin dashboard -->
+<div class="col-md-3">
+    <div class="stats-card">
+        <div class="stats-number">{{ total_characters }}</div>
+        <div>Total Characters</div>
+    </div>
+</div>
+    
+        <!-- Recent Anime -->
+        <div class="recent-anime">
+            <h4 class="text-white mb-3">Recent Anime</h4>
+            {% for anime in recent_anime %}
+            <div class="d-flex justify-content-between align-items-center p-2 mb-2" style="background: rgba(255,255,255,0.1); border-radius: 10px;">
+                <div class="text-white">
+                    <strong>{{ anime.title }}</strong> 
+                    <span class="badge bg-secondary">{{ anime.get_genre_display }}</span>
+                    {% if anime.is_published %}
+                        <span class="badge bg-success">Published</span>
+                    {% else %}
+                        <span class="badge bg-warning">Draft</span>
+                    {% endif %}
+                </div>
+                <a href="{% url 'admin_anime_edit' anime.id %}" class="btn btn-sm btn-outline-light">Edit</a>
+            </div>
+            {% empty %}
+            <p class="text-white">No anime created yet. <a href="{% url 'admin_anime_create' %}">Create your first anime!</a></p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

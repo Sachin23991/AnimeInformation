@@ -1,0 +1,883 @@
+:root {
+  --hot-pink: #e6007e;
+  --cyan: #00f2e3;
+  --purple: #6a00f4;
+  --black: #0a0a0a;
+  --white: #f0f0f0;
+  --font-heading: 'Orbitron', sans-serif;
+  --font-body: 'Noto Sans JP', sans-serif;
+}
+
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(45deg, #0a0a0a, #12002e, #1a0033, #0a0a0a);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: none; /* Custom cursor */
+}
+
+/* Custom cursor */
+.cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, var(--cyan), transparent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 15000;
+  mix-blend-mode: difference;
+  transition: transform 0.1s ease;
+}
+
+.cursor-follower {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(0, 242, 227, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 14999;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Animated background gradient */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Interactive particles */
+.particle-system {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.interactive-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--cyan);
+  border-radius: 50%;
+  opacity: 0;
+  animation: particleFloat 4s linear infinite;
+}
+
+@keyframes particleFloat {
+  0% { opacity: 0; transform: translateY(100vh) scale(0); }
+  10% { opacity: 1; transform: translateY(90vh) scale(1); }
+  90% { opacity: 1; transform: translateY(-10vh) scale(1); }
+  100% { opacity: 0; transform: translateY(-20vh) scale(0); }
+}
+
+/* Header with advanced interactions */
+header {
+  padding: 1.5rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent; /* Changed from rgba(10, 10, 10, 0.95) */
+  backdrop-filter: none; /* Remove initial blur */
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-bottom: 1px solid transparent; /* Initially transparent */
+  transform: translateY(0);
+}
+
+.header-scrolled {
+  background: rgba(10, 10, 10, 0.95); /* Add background when scrolled */
+  box-shadow: 0 10px 30px rgba(0, 242, 227, 0.15);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 242, 227, 0.2);
+}
+
+
+.header-hidden {
+  transform: translateY(-100%);
+}
+
+
+/* Interactive logo */
+.logo {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--white);
+  text-shadow: 0 0 20px var(--cyan);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.logo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 242, 227, 0.4), transparent);
+  transition: left 0.6s ease;
+}
+
+.logo:hover::before {
+  left: 100%;
+}
+
+.logo:hover {
+  transform: scale(1.1) rotate(5deg);
+  text-shadow: 0 0 30px var(--cyan), 0 0 50px var(--hot-pink);
+}
+
+.logo:active {
+  transform: scale(0.95) rotate(-5deg);
+}
+
+/* Interactive navigation */
+nav {
+  display: flex;
+  align-items: center;
+}
+
+nav a {
+  color: var(--white);
+  margin: 0 1.5rem;
+  text-decoration: none;
+  font-weight: 700;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+nav a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(45deg, var(--purple), var(--hot-pink));
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: -1;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--cyan);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+nav a:hover::before {
+  width: 100%;
+}
+
+nav a:hover::after {
+  width: 80%;
+}
+
+nav a:hover {
+  color: var(--white);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 242, 227, 0.3);
+}
+.cta {
+  padding: 1rem 2rem;
+  border: 2px solid var(--cyan);
+  background: transparent;
+  color: var(--cyan);
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.cta::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9), var(--cyan));
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0;
+}
+
+/* Add sparkling effect without covering text */
+.cta::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.6s ease;
+  z-index: -1;
+}
+
+.cta:hover::before {
+  width: 300px;
+  height: 300px;
+  opacity: 1;
+}
+
+.cta:hover::after {
+  left: 100%;
+}
+
+.cta:hover {
+  color: var(--black); /* Dark text on light background */
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 15px 35px rgba(0, 242, 227, 0.4);
+  border-color: var(--purple);
+}
+
+
+.cta:active {
+  transform: scale(0.98);
+}
+
+/* Interactive hero section */
+.hero {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(rgba(10, 10, 10, 0.4), rgba(10, 10, 10, 0.4)), url('https://res.cloudinary.com/db48wri4p/image/upload/v1753793235/%E0%A4%86%E0%A4%A7%E0%A5%81%E0%A4%A8%E0%A4%BF%E0%A4%95_%E0%A4%8F%E0%A4%A8%E0%A5%80%E0%A4%AE%E0%A5%87_%E0%A4%A8%E0%A4%BE%E0%A4%AF%E0%A4%95%E0%A5%8B%E0%A4%82_%E0%A4%95%E0%A4%BE_%E0%A4%B8%E0%A4%AE%E0%A5%82%E0%A4%B9_jmirvx.png') center/cover no-repeat;
+  background-attachment: fixed;
+  position: relative;
+  z-index: 10;
+  padding-top: 0; /* Increased from 80px to 140px */
+  transition: all 0.3s ease;
+}
+
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 242, 227, 0.15) 0%, transparent 50%);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  font-family: var(--font-heading);
+  color: var(--white);
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.hero h1:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 40px var(--cyan), 0 0 80px var(--hot-pink);
+}
+
+.hero-text-char {
+  display: inline-block;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hero-text-char:hover {
+  transform: translateY(-10px) scale(1.2);
+  color: var(--hot-pink);
+  text-shadow: 0 0 20px currentColor;
+}
+
+.hero p {
+  font-size: 1.3rem;
+  color: #ccc;
+  margin-top: 1rem;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+/* Interactive explore section */
+.explore {
+  padding: 6rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #110022, #1a0033, #110022);
+  position: relative;
+  z-index: 20;
+  overflow: hidden;
+}
+
+.explore::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(106, 0, 244, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.explore h2 {
+  font-size: 2.5rem;
+  font-family: var(--font-heading);
+  margin-bottom: 2rem;
+  color: var(--white);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.explore h2:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 30px var(--purple);
+}
+
+/* Interactive input field */
+.explore input {
+  padding: 1rem;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 400px;
+  margin-top: 1rem;
+  border: 2px solid var(--purple);
+  background: rgba(26, 26, 26, 0.8);
+  color: var(--white);
+  outline: none;
+  text-align: center;
+  font-size: 1rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.explore input:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 30px rgba(0, 242, 227, 0.4);
+  transform: scale(1.05);
+  background: rgba(26, 26, 26, 0.95);
+}
+
+.explore input:hover {
+  border-color: var(--hot-pink);
+  transform: translateY(-2px);
+}
+
+/* Interactive tags */
+.tags {
+  margin-top: 2rem;
+}
+
+.tags span {
+  display: inline-block;
+  background: linear-gradient(45deg, var(--purple), var(--hot-pink));
+  margin: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.tags span::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  transform: translate(-50%, -50%);
+}
+
+.tags span:hover::before {
+  width: 200px;
+  height: 200px;
+}
+
+.tags span:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 10px 30px rgba(106, 0, 244, 0.5);
+  background: linear-gradient(45deg, var(--cyan), var(--hot-pink));
+}
+
+.tags span:active {
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* Interactive cards */
+.timeline-preview, .features {
+  padding: 4rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  position: relative;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 20px;
+  max-width: 320px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 10px 30px rgba(0, 255, 255, 0.1);
+  border: 1px solid rgba(0, 242, 227, 0.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(transparent, rgba(0, 242, 227, 0.1), transparent);
+  transition: all 0.6s ease;
+  opacity: 0;
+}
+
+.card:hover::before {
+  opacity: 1;
+  animation: cardRotate 2s linear infinite;
+}
+
+@keyframes cardRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.card:hover {
+  transform: translateY(-15px) scale(1.03);
+  box-shadow: 0 25px 60px rgba(0, 242, 227, 0.3);
+  border-color: var(--cyan);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.card:active {
+  transform: translateY(-10px) scale(1.01);
+}
+
+.card h3 {
+  font-family: var(--font-heading);
+  color: var(--cyan);
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.card:hover h3 {
+  color: var(--hot-pink);
+  text-shadow: 0 0 15px currentColor;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: #ccc;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.card:hover p {
+  color: var(--white);
+}
+
+/* Interactive ASCII section */
+.ascii {
+  background: linear-gradient(45deg, #000, #111);
+  font-family: monospace;
+  color: var(--cyan);
+  padding: 1.5rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  white-space: pre;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 242, 227, 0.3);
+}
+
+.ascii:hover {
+  background: linear-gradient(45deg, #111, #222);
+  box-shadow: 0 10px 30px rgba(0, 242, 227, 0.2);
+  transform: scale(1.02);
+  border-color: var(--cyan);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.5rem; }
+  .explore h2 { font-size: 2rem; }
+  .explore input { width: 95%; }
+  
+  nav {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  header {
+    padding: 1rem;
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .hero {
+    padding-top: 160px;
+  }
+  
+  body {
+    cursor: auto; /* Disable custom cursor on mobile */
+  }
+  
+  .cursor, .cursor-follower {
+    display: none;
+  }
+}
+
+
+
+
+
+
+
+
+
+/* Anime Selection Section */
+.anime-selection {
+  padding: 8rem 2rem;
+  background: linear-gradient(135deg, #0a0a0a, #1a0033, #2a0066, #0a0a0a);
+  position: relative;
+  overflow: hidden;
+}
+
+.anime-selection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at center, rgba(0, 242, 227, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  text-align: center;
+  color: var(--white);
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, var(--cyan), var(--hot-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titleGlow 3s ease infinite alternate;
+}
+
+@keyframes titleGlow {
+  0% { text-shadow: 0 0 20px rgba(0, 242, 227, 0.5); }
+  100% { text-shadow: 0 0 40px rgba(230, 0, 126, 0.5); }
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 4rem;
+}
+
+/* Anime Grid Layout */
+.anime-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+/* Individual Anime Cards */
+.anime-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 242, 227, 0.2);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.anime-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(transparent, rgba(0, 242, 227, 0.1), transparent);
+  opacity: 0;
+  transition: all 0.6s ease;
+  animation: cardRotate 4s linear infinite paused;
+}
+
+.anime-card:hover::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+.anime-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0, 242, 227, 0.2);
+  border-color: var(--cyan);
+}
+.anime-poster {
+  position: relative;
+  /* Remove fixed height, use aspect ratio instead */
+  aspect-ratio: 2/3; /* Standard poster ratio */
+  min-height: 280px;
+  max-height: 400px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  /* Allow width to adjust */
+  width: 100%;
+  max-width: 300px; /* Prevent too wide posters */
+}
+
+.poster-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Fill the container */
+  transition: all 0.4s ease;
+  filter: brightness(0.8);
+}
+
+.anime-card:hover .poster-image {
+  transform: scale(1.1);
+  filter: brightness(1);
+}
+
+/* Poster Overlay */
+.poster-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.3) 40%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.anime-card:hover .poster-overlay {
+  opacity: 1;
+}
+
+.anime-info h3 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.anime-info p {
+  font-size: 0.9rem;
+  color: var(--cyan);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.genre {
+  font-size: 0.8rem;
+  color: #ccc;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+/* Anime Details */
+.anime-details h4 {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  color: var(--cyan);
+  margin-bottom: 0.8rem;
+  position: relative;
+  z-index: 2;
+}
+
+.anime-details p {
+  color: #ccc;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Interactive Anime Buttons */
+.anime-btn {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(45deg, var(--purple), var(--hot-pink));
+  border: none;
+  border-radius: 12px;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.anime-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.anime-btn:hover::before {
+  left: 100%;
+}
+
+.anime-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(106, 0, 244, 0.4);
+  background: linear-gradient(45deg, var(--cyan), var(--purple));
+}
+
+.anime-btn:active {
+  transform: translateY(0);
+}
+
+.anime-btn .arrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.anime-btn:hover .arrow {
+  transform: translateX(5px);
+}
+
+/* Specific Anime Card Colors */
+.anime-card[data-anime="one-piece"]:hover {
+  border-color: #ff6b35;
+  box-shadow: 0 20px 60px rgba(255, 107, 53, 0.2);
+}
+
+.anime-card[data-anime="naruto"]:hover {
+  border-color: #ff9500;
+  box-shadow: 0 20px 60px rgba(255, 149, 0, 0.2);
+}
+
+.anime-card[data-anime="attack-on-titan"]:hover {
+  border-color: #dc2626;
+  box-shadow: 0 20px 60px rgba(220, 38, 38, 0.2);
+}
+
+.anime-card[data-anime="jujutsu-kaisen"]:hover {
+  border-color: #7c3aed;
+  box-shadow: 0 20px 60px rgba(124, 58, 237, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .anime-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 2.2rem;
+  }
+  
+  .anime-poster {
+    height: 250px;
+  }
+  
+  .anime-selection {
+    padding: 4rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .anime-poster {
+    height: 180px;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+  }
+}

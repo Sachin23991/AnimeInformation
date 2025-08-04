@@ -1,0 +1,193 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AnimeInfo// Anime Timeline Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/landingpage.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">ANIMEINFO</div>
+        <nav>
+          <a href="{% url 'explore' %}" class="explore-link">Explore</a>
+            <a href="{% url 'anime_loading' %}" class="anime-button">
+    <span class="button-text">Anime</span>
+    <div class="button-effects"></div>
+</a>
+           
+        </nav>
+        <a href="{% url 'login' %}" class="cta">Enter The Animeinfo</a>
+
+    </header>
+
+    <section class="hero">
+        <h1>ANIMEINFO</h1>
+        <p>Where Anime Timelines Unfold from 2000 to 2025.</p>
+    </section>
+
+    <!-- NEW: Anime Selection Section -->
+    <section class="anime-selection" id="anime-selection">
+        <div class="container">
+            <h2 class="section-title">Choose Your Anime Adventure</h2>
+            <p class="section-subtitle">Explore timelines from the most popular anime series</p>
+            
+            <div class="anime-grid">
+                <!-- One Piece -->
+                <div class="anime-card" data-anime="one-piece">
+                    <div class="anime-poster">
+                        <img src="https://res.cloudinary.com/db48wri4p/image/upload/v1753791570/ChatGPT_Image_Jul_29_2025_05_46_28_PM_d4z7ga.png" alt="One Piece Poster" class="poster-image">
+                        <div class="poster-overlay">
+                            <div class="anime-info">
+                                <h3>One Piece</h3>
+                                <p>1000+ Episodes</p>
+                                <span class="genre">Adventure • Comedy</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="anime-details">
+                        <h4>One Piece</h4>
+                        <p>Follow Monkey D. Luffy's epic journey to become the Pirate King</p>
+                        <button class="anime-btn" data-target="one-piece">
+                            <span>Explore Timeline</span>
+                            <i class="arrow">→</i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Naruto -->
+                <div class="anime-card" data-anime="naruto">
+                    <div class="anime-poster">
+                        <img src="https://res.cloudinary.com/db48wri4p/image/upload/v1753793832/ChatGPT_Image_Jul_29_2025_06_26_27_PM_qglew3.png" alt="Naruto Poster" class="poster-image">
+                        <div class="poster-overlay">
+                            <div class="anime-info">
+                                <h3>Naruto</h3>
+                                <p>720 Episodes</p>
+                                <span class="genre">Action • Ninja</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="anime-details">
+                        <h4>Naruto</h4>
+                        <p>The journey of a young ninja who dreams of becoming Hokage</p>
+                        <button class="anime-btn" data-target="naruto">
+                            <span>Explore Timeline</span>
+                            <i class="arrow">→</i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Attack on Titan -->
+                <div class="anime-card" data-anime="attack-on-titan">
+                    <div class="anime-poster">
+                        <img src="https://res.cloudinary.com/db48wri4p/image/upload/v1753792046/Ataque_de_los_Titanes__Resistencia_Final_ieztmr.png" alt="Attack on Titan Poster" class="poster-image">
+                        <div class="poster-overlay">
+                            <div class="anime-info">
+                                <h3>Attack on Titan</h3>
+                                <p>87 Episodes</p>
+                                <span class="genre">Action • Drama</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="anime-details">
+                        <h4>Attack on Titan</h4>
+                        <p>Humanity's fight for survival against giant humanoid Titans</p>
+                        <button class="anime-btn" data-target="attack-on-titan">
+                            <span>Explore Timeline</span>
+                            <i class="arrow">→</i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Jujutsu Kaisen -->
+                <div class="anime-card" data-anime="jujutsu-kaisen">
+                    <div class="anime-poster">
+                        <img src="https://res.cloudinary.com/db48wri4p/image/upload/v1753794452/ChatGPT_Image_Jul_29_2025_06_33_26_PM_qyzovx.png" alt="Jujutsu Kaisen Poster" class="poster-image">
+                        <div class="poster-overlay">
+                            <div class="anime-info">
+                                <h3>Jujutsu Kaisen</h3>
+                                <p>24+ Episodes</p>
+                                <span class="genre">Supernatural • Action</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="anime-details">
+                        <h4>Jujutsu Kaisen</h4>
+                        <p>Students battle cursed spirits in this supernatural thriller</p>
+                        <button class="anime-btn" data-target="jujutsu-kaisen">
+                            <span>Explore Timeline</span>
+                            <i class="arrow">→</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="explore" id="explore">
+        <h2>Search Any Anime From 2000 to 2025</h2>
+        
+        <div class="tags">
+            <span>Attack on Titan</span>
+            <span>One Piece</span>
+            <span>Naruto</span>
+            <span>Jujutsu Kaisen</span>
+        </div>
+        <form id="searchForm" action="/anime/showcase/" method="get">
+    <input id="searchInput"
+           name="search"
+           type="search"
+           placeholder="Search any anime…">
+</form>
+
+    </section>
+
+    <section class="timeline-preview">
+        <div class="card">
+            <h3>Track Your Favorite Anime</h3>
+            <p>Attack on Titan</p>
+            <p>Break: → 2020 + Final Part</p>
+            <button class="cta" style="margin-top: 1rem;">Discover Studio Archives</button>
+        </div>
+        <div class="card ascii">
+    > My Hero Academia
+    S1: 2016 | Break: 2017  
+S2: 2017 | Break: 2017 
+S3: 2018 | Break: 2018  
+S4: 2019 | Break: 2020  
+S5: 2021 | Break: 2022  
+S6: 2022 | Break: 2023  
+S7: 2024 | Break: 2024  
+
+    > One Piece
+    S1: 1999 | Ongoing
+    [No Break]
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="card">
+            <h3>Massive Database</h3>
+            <p>Explore a vast collection of anime data spanning 25 years.</p>
+        </div>
+        <div class="card">
+            <h3>Hiatus Tracking</h3>
+            <p>Get real-time updates on anime breaks and seasonal schedules.</p>
+        </div>
+        <div class="card">
+            <h3>Global Community</h3>
+            <p>Join discussions and connect with anime fans worldwide.</p>
+        </div>
+    </section>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="{% static 'js/landingpage.js' %}"></script>
+</body>
+</html>

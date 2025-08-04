@@ -1,0 +1,423 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ anime.title }} - Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and base styles */
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        a {
+            color: #00f2e3;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #e6007e;
+        }
+
+        header {
+            background-color: #1f1f1f;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center;
+            border-bottom: 2px solid #00f2e3;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        header nav a {
+            margin: 0 15px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #222;
+            border-radius: 12px;
+            padding: 25px 30px;
+            box-shadow: 0 0 15px #00f2e3aa;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #00f2e3;
+            text-align: center;
+        }
+
+        .banner-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 15px auto 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px #6a00f4aa;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .banner-image:hover {
+            transform: scale(1.05);
+        }
+
+        .anime-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: #aaa;
+        }
+        .anime-meta span {
+            background: #333;
+            padding: 8px 15px;
+            border-radius: 25px;
+            box-shadow: 0 0 5px #00f2e3aa;
+            user-select: none;
+        }
+
+        h2 {
+            border-bottom: 2px solid #00f2e3;
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            color: #e6007e;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        /* ✅ Media Links Container */
+        .media-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .trailer-link, .video-link {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .trailer-link {
+            background: #00f2e3;
+            color: #121212;
+        }
+        .trailer-link:hover {
+            background-color: #e6007e;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* ✅ Video Link Styling */
+        .video-link {
+            background: #6a00f4;
+            color: #fff;
+        }
+        .video-link:hover {
+            background-color: #e6007e;
+            transform: translateY(-2px);
+        }
+
+        /* ✅ Video Container */
+        .video-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .video-embed {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 20px #6a00f4aa;
+        }
+
+        .video-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+
+        /* Characters list */
+        ul.character-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        ul.character-list li {
+            background: #333;
+            border-radius: 10px;
+            width: 200px;
+            padding: 15px;
+            box-shadow: 0 0 10px #e6007eaa;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        ul.character-list li:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 0 20px #00f2e3aa;
+        }
+        .character-image img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .character-info h4 {
+            margin: 0 0 8px;
+            color: #00f2e3;
+        }
+        .character-info p {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        /* Episodes list */
+        ol.episode-list {
+            padding-left: 20px;
+        }
+        ol.episode-list li {
+            background: #1e1e1e;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            padding: 12px 15px;
+            box-shadow: 0 0 10px #6a00f4aa;
+            transition: box-shadow 0.3s ease;
+        }
+        ol.episode-list li:hover {
+            box-shadow: 0 0 20px #00f2e3aa;
+        }
+        ol.episode-list strong {
+            color: #e6007e;
+        }
+        ol.episode-list em {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* Responsive */
+        @media(max-width: 640px) {
+            ul.character-list {
+                flex-direction: column;
+                align-items: center;
+            }
+            ul.character-list li {
+                width: 90%;
+            }
+            .media-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="{% url 'homepage' %}">Home</a> |
+            <a href="{% url 'anime_showcase' %}">Anime Showcase</a> |
+            <a href="{% url 'logout' %}">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>{{ anime.title }}</h1>
+        
+        {% if anime.get_banner_url %}
+            <img src="{{ anime.get_banner_url }}" alt="{{ anime.title }} Banner" class="banner-image" />
+        {% endif %}
+
+        <div class="anime-meta">
+            <span>Genre: {{ anime.get_genre_display }}</span>
+            <span>Status: {{ anime.get_status_display }}</span>
+            <span>Release Year: {{ anime.release_year }}</span>
+            <span>Studio: {{ anime.studio }}</span>
+            <span>Rating: {{ anime.rating }}/10</span>
+        </div>
+
+        <h2>Description</h2>
+        <p>{{ anime.description }}</p>
+
+        <!-- ✅ Enhanced Media Section -->
+        {% if anime.trailer_url or anime.video_url %}
+            <h2>Media</h2>
+            <div class="media-links">
+                {% if anime.trailer_url %}
+                    <a href="{{ anime.trailer_url }}" target="_blank" class="trailer-link" rel="noopener noreferrer">▶ Watch Trailer</a>
+                {% endif %}
+                {% if anime.video_url %}
+                    <a href="{{ anime.video_url }}" target="_blank" class="video-link" rel="noopener noreferrer">🎬 Watch Video</a>
+                {% endif %}
+            </div>
+
+            <!-- ✅ Embedded Video Player (FIXED - No custom filters) -->
+            {% if anime.video_url %}
+                <div class="video-container">
+                    <h3>Watch Now</h3>
+                    {% if 'youtube.com' in anime.video_url or 'youtu.be' in anime.video_url %}
+                        <!-- YouTube Embed - Simple approach without custom filters -->
+                        <div class="video-embed">
+                            <iframe 
+                                src="https://www.youtube.com/embed/{{ anime.video_url|slice:'-11:' }}" 
+                                allowfullscreen
+                                title="{{ anime.title }} Video">
+                            </iframe>
+                        </div>
+                    {% elif 'vimeo.com' in anime.video_url %}
+                        <!-- Vimeo Embed - Simple approach -->
+                        <div class="video-embed">
+                            <iframe 
+                                src="https://player.vimeo.com/video/{{ anime.video_url|slice:'-9:' }}" 
+                                allowfullscreen
+                                title="{{ anime.title }} Video">
+                            </iframe>
+                        </div>
+                    {% else %}
+                        <!-- Generic video link -->
+                        <p><a href="{{ anime.video_url }}" target="_blank" class="video-link">🎬 Watch Video</a></p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <!-- Main Characters -->
+        <h2>Main Characters</h2>
+        {% if main_characters %}
+            <ul class="character-list">
+                {% for character in main_characters %}
+                    <li>
+                        <div class="character-image">
+                            {% if character.get_character_image_url %}
+                                <img src="{{ character.get_character_image_url }}" alt="{{ character.name }}" />
+                            {% else %}
+                                <div style="height:150px; background: #444; border-radius: 8px; display:flex; align-items:center; justify-content:center; color:#aaa;">
+                                    No Image
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="character-info">
+                            <h4>{{ character.name }}</h4>
+                            <p>{{ character.description|truncatewords:20 }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No main characters available.</p>
+        {% endif %}
+
+        <!-- Other Characters -->
+        <h2>Other Characters</h2>
+        {% if other_characters %}
+            <ul class="character-list">
+                {% for character in other_characters %}
+                    <li>
+                        <div class="character-image">
+                            {% if character.get_character_image_url %}
+                                <img src="{{ character.get_character_image_url }}" alt="{{ character.name }}" />
+                            {% else %}
+                                <div style="height:150px; background: #444; border-radius: 8px; display:flex; align-items:center; justify-content:center; color:#aaa;">
+                                    No Image
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="character-info">
+                            <h4>{{ character.name }}</h4>
+                            <p>{{ character.description|truncatewords:20 }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No additional characters available.</p>
+        {% endif %}
+
+        <h2>Episodes (up to 10)</h2>
+        {% if episodes %}
+            <ol class="episode-list">
+                {% for episode in episodes %}
+                    <li>
+                        <strong>Episode {{ episode.episode_number }}: {{ episode.title }}</strong>  
+                        <em>{% if episode.air_date %}{{ episode.air_date }}{% else %}Air date unknown{% endif %}</em>
+                        <p>{{ episode.description|truncatewords:30 }}</p>
+                        <p><small>Duration: {{ episode.duration }} minutes</small></p>
+                    </li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p>No episodes available.</p>
+        {% endif %}
+
+    </main>
+
+    <script>
+        // ✅ JavaScript to properly extract YouTube ID and update iframe
+        function updateVideoEmbed() {
+            const videoContainer = document.querySelector('.video-embed iframe');
+            if (videoContainer && videoContainer.src.includes('youtube.com/embed/')) {
+                const currentSrc = videoContainer.src;
+                const videoUrl = '{{ anime.video_url }}';
+                
+                // Extract YouTube ID using JavaScript
+                let videoId = '';
+                if (videoUrl.includes('youtube.com/watch?v=')) {
+                    videoId = videoUrl.split('v=')[1];
+                    const ampersandPosition = videoId.indexOf('&');
+                    if (ampersandPosition !== -1) {
+                        videoId = videoId.substring(0, ampersandPosition);
+                    }
+                } else if (videoUrl.includes('youtu.be/')) {
+                    videoId = videoUrl.split('youtu.be/')[1];
+                    const questionPosition = videoId.indexOf('?');
+                    if (questionPosition !== -1) {
+                        videoId = videoId.substring(0, questionPosition);
+                    }
+                }
+                
+                if (videoId) {
+                    videoContainer.src = `https://www.youtube.com/embed/${videoId}`;
+                }
+            }
+        }
+        
+        // Run when page loads
+        document.addEventListener('DOMContentLoaded', updateVideoEmbed);
+    </script>
+
+</body>
+</html>
