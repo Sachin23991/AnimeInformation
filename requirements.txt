@@ -1,4 +1,4 @@
-﻿aiohappyeyeballs==2.6.1
+﻿git add requirements.txtaiohappyeyeballs==2.6.1
 alabaster==1.0.0
 annotated-types==0.7.0
 anyio==4.8.0
