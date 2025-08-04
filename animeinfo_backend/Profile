@@ -1,0 +1,1 @@
+web: gunicorn animeinfo_backend.wsgi
