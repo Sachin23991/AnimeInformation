@@ -1,4 +1,4 @@
-+
+
 """
 Django settings for animeinfo_backend project.
 
