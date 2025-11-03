@@ -1,4 +1,4 @@
-# anime/forms.py
+# anime/forms.py (FULL CORRECTED CODE)
 from django import forms
 from .models import Anime, Character, Episode
 
@@ -9,18 +9,16 @@ class AnimeForm(forms.ModelForm):
             'title', 'description', 
             'poster_image', 'poster_url', 'banner_image', 'banner_url', 'trailer_url',
             'genre', 'status', 'total_episodes', 'current_episode', 'release_year',
-             'trailer_url', 'video_url',
+            'video_url',
             'studio', 'rating', 'timeline_position', 'is_featured', 'is_published'
         ]
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter anime title'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Enter anime description'}),
             
-            # ✅ NEW: Poster fields
             'poster_image': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
             'poster_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://example.com/poster.jpg'}),
             
-            # ✅ NEW: Banner fields
             'banner_image': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
             'banner_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://example.com/banner.jpg'}),
             
@@ -33,7 +31,7 @@ class AnimeForm(forms.ModelForm):
             'rating': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1', 'min': '0', 'max': '10'}),
             'timeline_position': forms.NumberInput(attrs={'class': 'form-control', 'min': '2000', 'max': '2025'}),
             'trailer_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://...'}),
-             'video_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://...'}),
+            'video_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://...'}),
             'is_featured': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'is_published': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }

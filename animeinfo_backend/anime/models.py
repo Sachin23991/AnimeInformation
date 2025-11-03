@@ -1,4 +1,5 @@
-# anime/models.py
+## 🟢 Corrected anime/models.py (No changes needed)
+
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -66,13 +67,13 @@ class Anime(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     poster_image = models.ImageField(upload_to='anime_posters/', blank=True, null=True, 
-                                   help_text="Upload poster from your computer")
+                                     help_text="Upload poster from your computer")
     poster_url = models.URLField(blank=True, null=True, 
-                               help_text="Or enter poster image URL")
+                                 help_text="Or enter poster image URL")
     banner_image = models.ImageField(upload_to='anime_banners/', blank=True, null=True,
-                                   help_text="Upload banner from your computer")
+                                     help_text="Upload banner from your computer")
     banner_url = models.URLField(blank=True, null=True,
-                               help_text="Or enter banner image URL")
+                                 help_text="Or enter banner image URL")
     trailer_url = models.URLField(blank=True, null=True)
     genre = models.CharField(max_length=20, choices=GENRE_CHOICES)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='ongoing')
@@ -93,16 +94,16 @@ class Anime(models.Model):
     
     # Additional metadata with safe defaults
     alternative_titles = models.TextField(blank=True, null=True, 
-                                        help_text="Alternative titles separated by commas")
+                                         help_text="Alternative titles separated by commas")
     short_description = models.CharField(max_length=300, blank=True, null=True,
-                                       help_text="Brief description for cards and previews")
+                                         help_text="Brief description for cards and previews")
     source = models.CharField(max_length=20, choices=SOURCE_CHOICES, default='manga')
     age_rating = models.CharField(max_length=10, choices=AGE_RATING_CHOICES, default='PG13')
     season = models.CharField(max_length=10, choices=SEASON_CHOICES, blank=True, null=True)
     
     # Additional images
     logo_image = models.ImageField(upload_to='anime_logos/', blank=True, null=True,
-                                 help_text="Anime logo/title image")
+                                   help_text="Anime logo/title image")
     screenshot1 = models.ImageField(upload_to='anime_screenshots/', blank=True, null=True)
     screenshot2 = models.ImageField(upload_to='anime_screenshots/', blank=True, null=True)
     screenshot3 = models.ImageField(upload_to='anime_screenshots/', blank=True, null=True)
@@ -118,14 +119,14 @@ class Anime(models.Model):
     
     # Multiple genres
     secondary_genres = models.CharField(max_length=100, blank=True, null=True,
-                                      help_text="Additional genres separated by commas")
+                                        help_text="Additional genres separated by commas")
     
     # Episode details
     episode_duration = models.IntegerField(default=24, help_text="Average episode duration in minutes")
     episodes_per_season = models.IntegerField(default=12, validators=[MinValueValidator(1)])
     total_seasons = models.IntegerField(default=1, validators=[MinValueValidator(1)])
     
-    # ✅ SAFE DATE FIELDS - Use null=True, blank=True
+    # ✅ SAFE DATE FIELDS - Use null=True, blank=True (This is correct)
     start_date = models.DateField(blank=True, null=True, help_text="First episode air date")
     end_date = models.DateField(blank=True, null=True, help_text="Last episode air date")
     next_episode_date = models.DateField(blank=True, null=True, help_text="Next episode air date")
@@ -137,7 +138,7 @@ class Anime(models.Model):
     
     # Additional ratings
     mal_score = models.DecimalField(max_digits=3, decimal_places=1, default=0.0, blank=True, null=True,
-                                  help_text="MyAnimeList score")
+                                    help_text="MyAnimeList score")
     user_ratings_count = models.IntegerField(default=0, help_text="Number of user ratings")
     
     # Popularity metrics
@@ -154,9 +155,9 @@ class Anime(models.Model):
     
     # Content and SEO
     content_warnings = models.TextField(blank=True, null=True,
-                                      help_text="Content warnings separated by commas")
+                                        help_text="Content warnings separated by commas")
     tags = models.TextField(blank=True, null=True,
-                          help_text="Search tags separated by commas")
+                            help_text="Search tags separated by commas")
     seo_title = models.CharField(max_length=60, blank=True, null=True)
     seo_description = models.CharField(max_length=160, blank=True, null=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
@@ -212,9 +213,9 @@ class Character(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     character_image = models.ImageField(upload_to='characters/', blank=True, null=True,
-                                      help_text="Upload character image from computer")
+                                         help_text="Upload character image from computer")
     character_image_url = models.URLField(blank=True, null=True,
-                                        help_text="Or enter character image URL")
+                                           help_text="Or enter character image URL")
     is_main_character = models.BooleanField(default=False)
     
     def __str__(self):
