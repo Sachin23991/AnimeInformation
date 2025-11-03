@@ -17,9 +17,13 @@ urlpatterns = [
     path('reviews/', include('reviews.urls')),
 ]
 
+<<<<<<< HEAD
 # Serving Static and Media files for development
 if settings.DEBUG:
     # Serving Media files (user uploads)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     # Serving Static files (CSS, JS, images)
     urlpatterns += static(settings.STATIC_URL, document_root=(settings.STATICFILES_DIRS[0]))
+=======
+
+>>>>>>> d360957b57c1692c175e959b9ca5b10e66a4e514

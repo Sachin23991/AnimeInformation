@@ -8,7 +8,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%=lr4uq_6%(01lrkcn_9u=4o$3xldyv3k$e%z4nyjml21+75-w'
 DEBUG = True
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = ['animeinfo.onrender.com', 'localhost', '127.0.0.1']
+=======
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'animeinformation.onrender.com',
+]
+>>>>>>> d360957b57c1692c175e959b9ca5b10e66a4e514
 
 # Application definition
 INSTALLED_APPS = [
@@ -29,6 +37,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # WhiteNoise should come right after SecurityMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -42,8 +51,12 @@ ROOT_URLCONF = 'animeinfo_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+<<<<<<< HEAD
         # Correctly pointing to the root 'templates' folder
         'DIRS': [BASE_DIR.parent / 'templates'], 
+=======
+        'DIRS': [BASE_DIR / 'templates'],
+>>>>>>> d360957b57c1692c175e959b9ca5b10e66a4e514
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +86,7 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
+<<<<<<< HEAD
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR.parent / 'static', # Pointing to the root 'static' folder
@@ -89,21 +103,59 @@ AUTH_USER_MODEL = 'users.CustomUser'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Authentication settings
+=======
+# https://docs.djangoproject.com/en/5.2/howto/static-files/
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Media files configuration (for user uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AUTH_USER_MODEL = 'users.CustomUser'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ADMIN_SITE_HEADER = "AnimeInfo Admin Panel"
+
+>>>>>>> d360957b57c1692c175e959b9ca5b10e66a4e514
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/home/'
 LOGOUT_REDIRECT_URL = '/'
 
+<<<<<<< HEAD
 # CORS settings
+=======
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'https://animeinformation.onrender.com',
+]
+
+SESSION_COOKIE_AGE = 86400  # 1 day
+SESSION_SAVE_EVERY_REQUEST = True
+
+>>>>>>> d360957b57c1692c175e959b9ca5b10e66a4e514
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
 ]
 
+<<<<<<< HEAD
 # EMAIL CONFIGURATION FOR PASSWORD RESET
+=======
+>>>>>>> d360957b57c1692c175e959b9ca5b10e66a4e514
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'your-email@gmail.com'
+<<<<<<< HEAD
 EMAIL_HOST_PASSWORD = 'your-app-password' # Use App Password for Gmail
 DEFAULT_FROM_EMAIL = 'noreply@animeinfo.com'
+=======
+EMAIL_HOST_PASSWORD = 'your-app-password'
+DEFAULT_FROM_EMAIL = 'noreply@animeinfo.com'
+>>>>>>> d360957b57c1692c175e959b9ca5b10e66a4e514
