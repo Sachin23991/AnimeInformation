@@ -311,5 +311,5 @@ This project is open source and available under the MIT License.
 
 ---
 
-**Built with passion by Sachin Sharma** 🎌
+**Built with passion by Sachin Rao** 🎌
 *A full-stack web development project showcasing Django expertise, database design, and modern web application architecture.*
